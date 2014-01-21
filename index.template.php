@@ -103,6 +103,8 @@ function template_html_above()
 	echo '
 	<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/script.js?fin20"></script>
 	<script type="text/javascript" src="', $settings['theme_url'], '/scripts/theme.js?fin20"></script>
+	<script type="text/javascript" src="', $settings['theme_url'], '/scripts/skm_2.js"></script>
+	<script type="text/javascript" src="', $settings['theme_url'], '/scripts/skm.js"></script>
 	<script type="text/javascript"><!-- // --><![CDATA[
 		var smf_theme_url = "', $settings['theme_url'], '";
 		var smf_default_theme_url = "', $settings['default_theme_url'], '";
@@ -170,8 +172,319 @@ function template_body_above()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
+	echo !empty($settings['forum_width']) ? '
+<div id="wrapper" style="width: ' . $settings['forum_width'] . '">' : '', '
+	<div id="header">
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$.fn.infiniteCarousel = function () {
+    function repeat(str, num) {
+        return new Array( num + 1 ).join( str );
+    }
+  
+    return this.each(function () {
+        var $wrapper = $(\'> div\', this).css(\'overflow\', \'hidden\'),
+            $slider = $wrapper.find(\'> ul\'),
+            $items = $slider.find(\'> li\'),
+            $single = $items.filter(\':first\'),
+            
+            singleWidth = $single.outerWidth(), 
+            visible = Math.ceil($wrapper.innerWidth() / singleWidth), // note: doesn\'t include padding or border
+            currentPage = 1,
+            pages = Math.ceil($items.length / visible);            
+
+            if (($items.length % visible) != 0) {
+            $slider.append(repeat(\'<li class="empty" />\', visible - ($items.length % visible)));
+            $items = $slider.find(\'> li\');
+        }
+
+        $items.filter(\':first\').before($items.slice(- visible).clone().addClass(\'cloned\'));
+        $items.filter(\':last\').after($items.slice(0, visible).clone().addClass(\'cloned\'));
+        $items = $slider.find(\'> li\'); 
+        
+        $wrapper.scrollLeft(singleWidth * visible);
+        
+            function gotoPage(page) {
+            var dir = page < currentPage ? -1 : 1,
+                n = Math.abs(currentPage - page),
+                left = singleWidth * dir * visible * n;
+            
+            $wrapper.filter(\':not(:animated)\').animate({
+                scrollLeft : \'+=\' + left
+            }, 500, function () {
+                if (page == 0) {
+                    $wrapper.scrollLeft(singleWidth * visible * pages);
+                    page = pages;
+                } else if (page > pages) {
+                    $wrapper.scrollLeft(singleWidth * visible);
+                    // reset back to start position
+                    page = 1;
+                } 
+                currentPage = page;
+            });                         
+            return false;
+        }
+        
+        $wrapper.after(\'<a class="icon-angle-left"></a><a class="icon-angle-right"></a>\');
+        
+          $(\'a.icon-angle-left\', this).click(function () {
+            return gotoPage(currentPage - 1);                
+        });
+        
+        $(\'a.icon-angle-right\', this).click(function () {
+            return gotoPage(currentPage + 1);
+        });
+        
+        $(this).bind(\'goto\', function (event, page) {
+            gotoPage(page);
+        });
+    });  
+};
+$(document).ready(function () {
+  $(\'.infiniteCarousel\').infiniteCarousel();
+});
+//]]>
+</script>';
+
+          global $smcFunc, $scripturl;
+
+$boards = array(1,2);
+
+$request = $smcFunc['db_query']('', '
+  SELECT t.id_topic, m.subject, m.body
+  FROM {db_prefix}topics AS t
+     INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
+  WHERE t.id_board IN ({array_int:boards})
+  ORDER BY t.id_topic DESC
+       LIMIT {int:limit}',
+  array(
+    'boards' => $boards,
+               'limit' => 50,
+  )
+);
+$topics = array();
+while ($row = $smcFunc['db_fetch_assoc']($request))
+  $topics[] = array(
+     'id_topic' => $row['id_topic'],
+     'subject' => $row['subject'],
+     'body' => $row['body'],
+     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
+  );
+$smcFunc['db_free_result']($request);
+
+echo '
+        <table style="margin-left: auto; margin-right: auto;"><tr><td>                  <div id="caja-carrusel">
+<div class="infiniteCarousel">
+<div class="wrapper" style="overflow-x: hidden; overflow-y: hidden; ">
+<ul>
+      
+                   ';
+foreach ($topics as $topic)
+  echo '
+                       
+      
+<li><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], ' </a></li>
+
+                      ';
+echo '
+                  
+   </ul>
+</div>
+</div></div> </td></tr></table>';
+
+
+echo'
+		 <div id="top_section">
+             <div class="news normaltext">';
+
+	// Show a random news item? (or you could pick one from news_lines...)
+	if (!empty($settings['enable_news']))
+		echo '
+				<h2>', $txt['news'], ': 
+				', $context['random_news_line'], '</h2>';
+
+	echo '
+			</div>';
+echo ' 
+    <div id="usergo">';
+                        
+				// If the user is logged in, display stuff like their name, new messages, etc.
+	if ($context['user']['is_logged'])
+	{
+            echo '<div id="teknouser">
+                    <ul class="reset">
+                                        <li>';
+		if (!empty($context['user']['avatar']))
+                    echo 
+                           $context['user']['avatar']['image'];
+                 else 
+                    echo '<img class="avatar" src="' . $settings['images_url'] . '/avatar.png" alt="" />';
+                 
+		echo '
+                                        </li>
+					<li><h2>', $txt['hello_member_ndt'], '! ', $context['user']['name'], '</h2></li>
+					<li><a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a></li>
+					<li><a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a></li>';
+					
+
+		
+
+		echo '
+					
+				</ul>
+                 </div>';
+	}
+	// Otherwise they're a guest - this time ask them to either register or login - lazy bums...
+	elseif (!empty($context['show_login_bar']))
+	{
+		echo '
+				<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/sha1.js"></script>
+				<form id="guest_form" action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '" ', empty($context['disable_login_hashing']) ? ' onsubmit="hashLoginPassword(this, \'' . $context['session_id'] . '\');"' : '', '>
+                                         <input type="text" name="user" class="input_text" value="' , $txt['username'] , '" onfocus="this.value=(this.value==\'' ,$txt['username'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['username'] , '\' : this.value;"/>
+					 <input type="password" name="passwrd"  class="input_password" value="' , $txt['password'] , '" onfocus="this.value=(this.value==\'' ,$txt['password'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['password'] , '\' : this.value;" />			
+                                                <select name="cookielength">
+						<option value="60">', $txt['one_hour'], '</option>
+						<option value="1440">', $txt['one_day'], '</option>
+						<option value="10080">', $txt['one_week'], '</option>
+						<option value="43200">', $txt['one_month'], '</option>
+						<option value="-1" selected="selected">', $txt['forever'], '</option>
+					</select>
+					<input type="submit" value="', $txt['login'], '" class="button_submit" /><br />';
+                
+
+		if (!empty($modSettings['enableOpenID']))
+			echo '
+					<br /><input type="text" name="openid_identifier" id="openid_url" size="25" class="input_text openid_login" />';
+
+		echo '
+					<input type="hidden" name="hash_passwrd" value="" />
+				</form>';
+	}
+         
+
+	echo '            </div>
+                
+            </div>
+        
+        
+		<div id="upper_section" class="middletext"', empty($options['collapse_header']) ? '' : ' style="display: none;"', '>
+<div id="logo">
+                      <h1 class="forumtitle">
+<a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
+    </h1>
+                    
+                </div>	 <div class="teknosocial">
+          
+       <ul class="tekno_social">';
+       if (!empty($settings['active_twitter'])) {
+        echo '<li><a class="twitter" href="',$settings['url_twitter'],'" target="_blank"></a></li>';
+        }
+       if (!empty($settings['active_google'])) {
+        echo '<li><a class="gplus" href="',$settings['url_google'],'" target="_blank"></a></li>';
+        }
+       if (!empty($settings['active_facebook'])) {
+        echo '<li><a class="facebook" href="',$settings['url_facebook'],'" target="_blank"><span></span></a></li>';
+        }
+       if (!empty($settings['active_youtube'])) {
+        echo '<li><a class="youtube" href="',$settings['url_youtube'],'" target="_blank"></a></li>';
+        }
+       if (!empty($settings['active_rss'])) {
+        echo '<li><a class="rss" href="' . $scripturl . '?action=.xml;type=rss" target="_blank"></a></li>';
+        }
+        echo '
+      <li></li></ul></div>
+			<div class="news normaltext">
+				<form id="search_form" action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
+					<input type="text" name="search" value="" class="input_text" />&nbsp;
+					<input type="submit" name="submit" value="', $txt['search'], '" class="button_submit" />
+					<input type="hidden" name="advanced" value="0" />';
+
+	// Search within current topic?
+	if (!empty($context['current_topic']))
+		echo '
+					<input type="hidden" name="topic" value="', $context['current_topic'], '" />';
+	// If we're on a certain board, limit it to this board ;).
+	elseif (!empty($context['current_board']))
+		echo '
+					<input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
+
+	echo '<br /><span style="color:#0466F9">',timeformat(time(),'%d %B %Y'), ' / </span>', $txt['saat'], ' <span style="color:#0466F9" id="clock2">', $txt['loading'], '</span>	
+					
+<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+function refrClock()
+{
+var d=new Date();
+var s=d.getSeconds();
+var m=d.getMinutes();
+var h=d.getHours();
+var am_pm;
+if (s<10) {s="0" + s}
+if (m<10) {m="0" + m}
+if (h>24) {h="24"}
+else {am_pm=""}
+if (h<10) {h="0" + h}
+document.getElementById("clock2").innerHTML=h + ":" + m + ":" + s + am_pm;
+setTimeout("refrClock()",1000);
+}
+refrClock();
+	// ]]></script></form>';
+
+	
+
+	echo '
+			</div>
+		</div>
+		<br class="clear" />';
+
+	// Define the upper_section toggle in JavaScript.
+	echo '
+		<script type="text/javascript"><!-- // --><![CDATA[
+			var oMainHeaderToggle = new smc_Toggle({
+				bToggleEnabled: true,
+				bCurrentlyCollapsed: ', empty($options['collapse_header']) ? 'false' : 'true', ',
+				aSwappableContainers: [
+					\'upper_section\'
+				],
+				aSwapImages: [
+					{
+						sId: \'upshrink\',
+						srcExpanded: smf_images_url + \'/upshrink.png\',
+						altExpanded: ', JavaScriptEscape($txt['upshrink_description']), ',
+						srcCollapsed: smf_images_url + \'/upshrink2.png\',
+						altCollapsed: ', JavaScriptEscape($txt['upshrink_description']), '
+					}
+				],
+				oThemeOptions: {
+					bUseThemeSettings: ', $context['user']['is_guest'] ? 'false' : 'true', ',
+					sOptionName: \'collapse_header\',
+					sSessionVar: ', JavaScriptEscape($context['session_var']), ',
+					sSessionId: ', JavaScriptEscape($context['session_id']), '
+				},
+				oCookieOptions: {
+					bUseCookie: ', $context['user']['is_guest'] ? 'true' : 'false', ',
+					sCookieName: \'upshrink\'
+				}
+			});
+		// ]]></script><div class="Tekmenu">';
+
 	// Show the menu here, according to the menu sub template.
 	template_menu();
+
+	echo '
+		</div><br class="clear" />
+	</div>';
+
+	// The main content should go here.
+	echo '
+	<div id="content_section">
+		<div id="main_content_section">';
+
+	// Custom banners and shoutboxes should be placed here, before the linktree.
 
 	// Show the navigation tree.
 	theme_linktree();
@@ -181,24 +494,68 @@ function template_body_below()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-
+	echo '
+		</div>
+	</div>';
+     
 	// Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
 	echo '
-	<div id="footer_section"><div class="frame">
-		<ul class="reset">
-			<li class="copyright">', theme_copyright(), '</li>
+		<div id="fottmenu">
+	<div class="fottcontainer p1">
+		<div class="card">		
+			<div class="obverse">
+				<h1>SMF</h1>
+				<img src="' . $settings['images_url'] . '/195.png" alt="Teknoromi" />
+			</div>
+			<div class="reverse">
+				<h2>SMF Links</h2>
+				<ol>
 			<li><a id="button_xhtml" href="http://validator.w3.org/check?uri=referer" target="_blank" class="new_win" title="', $txt['valid_xhtml'], '"><span>', $txt['xhtml'], '</span></a></li>
 			', !empty($modSettings['xmlnews_enable']) && (!empty($modSettings['allow_guestAccess']) || $context['user']['is_logged']) ? '<li><a id="button_rss" href="' . $scripturl . '?action=.xml;type=rss" class="new_win"><span>' . $txt['rss'] . '</span></a></li>' : '', '
 			<li class="last"><a id="button_wap2" href="', $scripturl , '?wap2" class="new_win"><span>', $txt['wap2'], '</span></a></li>
-		</ul>';
-
+			<li><a href="http://teknoromi.com" title="teknoloji">Theme by snrj</a></li>
+		</ol>';
+		echo '	</div>
+		</div>
+	</div>
+	<div class="fottcontainer p2">
+		<div class="card">';
+        if (!empty($settings['active_teknobox1'])) {
+        echo '<div class="obverse"><h1>',$settings['url_teknobox1b'],'</h1><img src="',$settings['url_teknobox1i'],'" alt="" /></div>
+			<div class="reverse"><h2>',$settings['url_teknobox1t'],'</h2><ol>',$settings['url_teknobox1'],'</ol></div>';
+        }			
+		echo '	
+		</div>
+	</div>
+	<div class="fottcontainer p3">
+		<div class="card">
+			';
+		  if (!empty($settings['active_teknobox2'])) {
+        echo '<div class="obverse"><h1>',$settings['url_teknobox2b'],'</h1><img src="',$settings['url_teknobox2i'],'" alt="" /></div>
+			<div class="reverse"><h2>',$settings['url_teknobox2t'],'</h2><ol>',$settings['url_teknobox2'],'</ol></div>';
+        }
+		echo '
+		</div>
+	</div>
+	<div class="fottcontainer p4">
+		<div class="card">';
+		  if (!empty($settings['active_teknobox3'])) {
+        echo '<div class="obverse"><h1>',$settings['url_teknobox3b'],'</h1><img src="',$settings['url_teknobox3i'],'" alt="" /></div>
+			<div class="reverse"><h2>',$settings['url_teknobox3t'],'</h2><ol>',$settings['url_teknobox3'],'</ol></div>';
+        }
+		echo '
+		</div>
+	</div>
+</div><ul class="lisans">
+			<li class="copyright">', theme_copyright(), '</li></ul>';
 	// Show the load time?
 	if ($context['show_load_time'])
 		echo '
 		<p>', $txt['page_created'], $context['load_time'], $txt['seconds_with'], $context['load_queries'], $txt['queries'], '</p>';
 
 	echo '
-	</div>';
+	', !empty($settings['forum_width']) ? '
+</div>' : '';
 }
 
 function template_html_below()
