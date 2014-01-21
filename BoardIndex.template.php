@@ -271,7 +271,7 @@ foreach ($topics as $topic)
   echo '
                        
       
-<td style=" float:left;padding: 10px 10px;"><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], ' </a></td>  ';
+<td style=" float:left;padding: 10px 10px;"><div class="divboard">',  $topic['subject'], '</div><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '  </a></td>  ';
 echo '
      </tr></table>
 	</div></div><br class="clear"></br>';
