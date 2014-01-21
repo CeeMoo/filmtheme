@@ -180,13 +180,7 @@ function template_main()
 						</p>
 					</td>
         <td class="windowbg2" align="center" valign="middle" width="6%"><a href="' . $scripturl . '?action=.xml;board=' . $board['id'] . ';type=rss"><img src="' . $settings['images_url'] . '/rss.png" alt="rss" /></a><br />'; 
-if($board['posts']<0) echo'<img src="', $settings['images_url'], '/0.gif" alt="" />'; 
-if($board['posts']<15) echo'<img src="', $settings['images_url'], '/1.png" alt="" />'; 
-elseif($board['topics']<25) echo'<img src="', $settings['images_url'], '/2.png" alt="" />'; 
-elseif($board['topics']<50) echo'<img src="', $settings['images_url'], '/3.png" alt="" />'; 
-elseif($board['topics']<100) echo'<img src="', $settings['images_url'], '/4.png" alt="" />'; 
-elseif($board['topics']<200) echo'<img src="', $settings['images_url'], '/5.png" alt="" />'; 
-else echo'<img src="', $settings['images_url'], '/5.png" alt="" />'; 
+
 echo'   </td>
 					<td class="lastpost">';
 
