@@ -84,8 +84,7 @@ function template_main()
 	}
 
 	echo '
-	<div style="width:100%;"><div id="boardindex_table" style="width:30%; float:left; margin-right: 10px;">
-		<table class="table_list">';
+	<div style="width:100%;"><div id="boardindex_table" style="width:25%; float:left; margin-right: 10px;>';
 
 	/* Each category in categories is made up of:
 	id, href, link, name, is_collapsed (is it collapsed?), can_collapse (is it okay if it is?),
@@ -97,36 +96,14 @@ function template_main()
 		if (empty($category['boards']) && !$category['is_collapsed'])
 			continue;
 
-		echo '
-			<tbody class="header" id="category_', $category['id'], '">
-				<tr>
-					<td colspan="6">
-						<div class="cat_bar">
-							<h3 class="catbg">';
-
-		// If this category even can collapse, show a link to collapse it.
-		if ($category['can_collapse'])
-			echo '
-								<a class="collapse" href="', $category['collapse_href'], '">', $category['collapse_image'], '</a>';
-
-		if (!$context['user']['is_guest'] && !empty($category['show_unread']))
-			echo '
-								<a class="unreadlink" href="', $scripturl, '?action=unread;c=', $category['id'], '">', $txt['view_unread_category'], '</a>';
-
-		echo '
-								', $category['link'], '
-							</h3>
-						</div>
-					</td>
-				</tr>
-			</tbody>';
+		
 
 		// Assuming the category hasn't been collapsed...
 		if (!$category['is_collapsed'])
 		{
 
 		echo '
-			<tbody class="content" id="category_', $category['id'], '_boards">';
+			<table class="content" id="category_', $category['id'], '_boards">';
 			/* Each board in each category's boards has:
 			new (is it new?), id, name, description, moderators (see below), link_moderators (just a list.),
 			children (see below.), link_children (easier to use.), children_new (are they new?),
@@ -134,68 +111,19 @@ function template_main()
 			foreach ($category['boards'] as $board)
 			{
 				echo '
-				<tr id="board_', $board['id'], '" class="windowbg2">
-					<td class="icon windowbg"', !empty($board['children']) ? ' rowspan="2"' : '', '>
-						<a href="', ($board['is_redirect'] || $context['user']['is_guest'] ? $board['href'] : $scripturl . '?action=unread;board=' . $board['id'] . '.0;children'), '">';
+				<table id="board_', $board['id'], '" class="windowbg2" style="width: 100%;">
+					<tr class="info">
+						<td style="width:74%;"><a class="subject" href="', $board['href'], '" name="b', $board['id'], '">', $board['name'], '</a></td>';
 
-				// If the board or children is new, show an indicator.
-				if ($board['new'] || $board['children_new'])
-					echo '
-							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'on', $board['new'] ? '' : '2', '.png" alt="', $txt['new_posts'], '" title="', $txt['new_posts'], '" />';
-				// Is it a redirection board?
-				elseif ($board['is_redirect'])
-					echo '
-							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'redirect.png" alt="*" title="*" />';
-				// No new posts at all! The agony!!
-				else
-					echo '
-							<img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'off.png" alt="', $txt['old_posts'], '" title="', $txt['old_posts'], '" />';
-
-				echo '
-						</a>
-					</td>
-					<td class="info">
-						<a class="subject" href="', $board['href'], '" name="b', $board['id'], '">', $board['name'], '</a>';
-
-				// Has it outstanding posts for approval?
-				if ($board['can_approve_posts'] && ($board['unapproved_posts'] || $board['unapproved_topics']))
-					echo '
-						<a href="', $scripturl, '?action=moderate;area=postmod;sa=', ($board['unapproved_topics'] > 0 ? 'topics' : 'posts'), ';brd=', $board['id'], ';', $context['session_var'], '=', $context['session_id'], '" title="', sprintf($txt['unapproved_posts'], $board['unapproved_topics'], $board['unapproved_posts']), '" class="moderation_link">(!)</a>';
-
-				echo '
-
-						<p>', $board['description'] , '</p>';
-
-				// Show the "Moderators: ". Each has name, href, link, and id. (but we're gonna use link_moderators.)
-				if (!empty($board['moderators']))
-					echo '
-						<p class="moderators">', count($board['moderators']) == 1 ? $txt['moderator'] : $txt['moderators'], ': ', implode(', ', $board['link_moderators']), '</p>';
-
+				
 				// Show some basic information about the number of posts, etc.
 					echo '
-					</td>
-					<td class="stats windowbg">
-						<p>', comma_format($board['posts']), ' ', $board['is_redirect'] ? $txt['redirects'] : $txt['posts'], ' </p></td><td class="stats windowbg">
-						<p>', $board['is_redirect'] ? '' : comma_format($board['topics']) . ' ' . $txt['board_topics'], '
-						</p>
-					</td>
-        <td class="windowbg2" align="center" valign="middle" width="6%"><a href="' . $scripturl . '?action=.xml;board=' . $board['id'] . ';type=rss"><img src="' . $settings['images_url'] . '/rss.png" alt="rss" /></a><br />'; 
+				
+						<td style="width:20%;"><p>', $board['is_redirect'] ? '' : comma_format($board['topics']) . ' ' . $txt['board_topics'], '</p></td>
+					
+      <td style="width:5%;"><a href="' . $scripturl . '?action=.xml;board=' . $board['id'] . ';type=rss"><img src="' . $settings['images_url'] . '/rss.png" alt="rss" /></a></td>'; 
 
-echo'   </td>
-					<td class="lastpost">';
-
-				/* The board's and children's 'last_post's have:
-				time, timestamp (a number that represents the time.), id (of the post), topic (topic id.),
-				link, href, subject, start (where they should go for the first unread post.),
-				and member. (which has id, name, link, href, username in it.) */
-				if (!empty($board['last_post']['id']))
-					echo '
-						<p><strong>', $txt['last_post'], '</strong>  ', $txt['by'], ' ', $board['last_post']['member']['link'] , '<br />
-						', $txt['in'], ' ', $board['last_post']['link'], '<br />
-						', $txt['on'], ' ', $board['last_post']['time'],'
-						</p>';
-				echo '
-					</td>
+echo'   
 				</tr>';
 				// Show the "Child Boards: ". (there's a link_children but we're going to bold the new ones...)
 				if (!empty($board['children']))
@@ -219,24 +147,35 @@ echo'   </td>
 					}
 					echo '
 					<tr id="board_', $board['id'], '_children">
-						<td colspan="5" class="children windowbg">
-							<strong>', $txt['parent_boards'], '</strong>: ', implode(', ', $children), '
+						<td colspan="3" class="children windowbg">
+							<table style="width:100%" class="windowbg2">
+								<tr>';
+
+							foreach ($children as $key => $child)
+							{
+								if ($key % 2 == 0 && $key != 0)
+								echo '
+								</tr>
+								<tr>';
+
+								echo '
+									<td style="padding-left: 10px;">', $child, '</td>';
+							}
+
+							echo '
+								</tr>
+							</table>
 						</td>
 					</tr>';
 				}
 			}
 		echo '
-			</tbody>';
+			</table>';
 		}
-		echo '
-			<tbody class="divider">
-				<tr>
-					<td colspan="6"></td>
-				</tr>
-			</tbody>';
+
 	}
 	echo '
-		</table></div>';
+		</div>';
 		global $smcFunc, $scripturl;
 
 $boards = array(1,2);
