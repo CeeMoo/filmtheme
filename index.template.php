@@ -591,6 +591,7 @@ function template_button_strip($button_strip, $direction = 'top', $strip_options
 
 function flimslider() {
 
+    echo '
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
