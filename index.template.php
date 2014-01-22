@@ -373,26 +373,23 @@ refrClock();
 	</div>';
 	
 
-
-	// The main content should go here.
-	echo '
-	<div id="content_section">
-		<div id="main_content_section">';
-
 	// Custom banners and shoutboxes should be placed here, before the linktree.
 
 	// Show the navigation tree.
 	theme_linktree();
+	
+	//forum orta arkaplan
+	echo '
+	<div id="forumorta">';
 }
 
 function template_body_below()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-	echo '
-		</div>
+    echo '
 	</div>';
-     
+	
 	// Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
 	echo '
 		<div id="fottmenu">
