@@ -84,7 +84,7 @@ function template_main()
 	}
 
 	echo '
-	<div style="width:100%;"><div id="boardindex_table" style="width:25%; float:left; margin-right: 10px;>';
+	<div style="width:100%;"><div id="boardindex_table" style="width:30%; float:left; margin-right: 10px;>';
 
 	/* Each category in categories is made up of:
 	id, href, link, name, is_collapsed (is it collapsed?), can_collapse (is it okay if it is?),
@@ -203,7 +203,7 @@ while ($row = $smcFunc['db_fetch_assoc']($request))
 $smcFunc['db_free_result']($request);
 
 echo '
-       <div style="width:65%;"> <table width="100%"><tr>
+       <div style="width:66%;"> <table width="100%"><tr>
       
                    ';
 foreach ($topics as $topic)
