@@ -174,128 +174,9 @@ function template_body_above()
 
 	echo !empty($settings['forum_width']) ? '
 <div id="wrapper" style="width: ' . $settings['forum_width'] . '">' : '', '
-	<div id="header">
-
-
-
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-//<![CDATA[
-$.fn.infiniteCarousel = function () {
-    function repeat(str, num) {
-        return new Array( num + 1 ).join( str );
-    }
-  
-    return this.each(function () {
-        var $wrapper = $(\'> div\', this).css(\'overflow\', \'hidden\'),
-            $slider = $wrapper.find(\'> ul\'),
-            $items = $slider.find(\'> li\'),
-            $single = $items.filter(\':first\'),
-            
-            singleWidth = $single.outerWidth(), 
-            visible = Math.ceil($wrapper.innerWidth() / singleWidth), // note: doesn\'t include padding or border
-            currentPage = 1,
-            pages = Math.ceil($items.length / visible);            
-
-            if (($items.length % visible) != 0) {
-            $slider.append(repeat(\'<li class="empty" />\', visible - ($items.length % visible)));
-            $items = $slider.find(\'> li\');
-        }
-
-        $items.filter(\':first\').before($items.slice(- visible).clone().addClass(\'cloned\'));
-        $items.filter(\':last\').after($items.slice(0, visible).clone().addClass(\'cloned\'));
-        $items = $slider.find(\'> li\'); 
-        
-        $wrapper.scrollLeft(singleWidth * visible);
-        
-            function gotoPage(page) {
-            var dir = page < currentPage ? -1 : 1,
-                n = Math.abs(currentPage - page),
-                left = singleWidth * dir * visible * n;
-            
-            $wrapper.filter(\':not(:animated)\').animate({
-                scrollLeft : \'+=\' + left
-            }, 500, function () {
-                if (page == 0) {
-                    $wrapper.scrollLeft(singleWidth * visible * pages);
-                    page = pages;
-                } else if (page > pages) {
-                    $wrapper.scrollLeft(singleWidth * visible);
-                    // reset back to start position
-                    page = 1;
-                } 
-                currentPage = page;
-            });                         
-            return false;
-        }
-        
-        $wrapper.after(\'<a class="icon-angle-left"></a><a class="icon-angle-right"></a>\');
-        
-          $(\'a.icon-angle-left\', this).click(function () {
-            return gotoPage(currentPage - 1);                
-        });
-        
-        $(\'a.icon-angle-right\', this).click(function () {
-            return gotoPage(currentPage + 1);
-        });
-        
-        $(this).bind(\'goto\', function (event, page) {
-            gotoPage(page);
-        });
-    });  
-};
-$(document).ready(function () {
-  $(\'.infiniteCarousel\').infiniteCarousel();
-});
-//]]>
-</script>';
-
-          global $smcFunc, $scripturl;
-
-$boards = array(1,2);
-
-$request = $smcFunc['db_query']('', '
-  SELECT t.id_topic, m.subject, m.body
-  FROM {db_prefix}topics AS t
-     INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
-  WHERE t.id_board IN ({array_int:boards})
-  ORDER BY t.id_topic DESC
-       LIMIT {int:limit}',
-  array(
-    'boards' => $boards,
-               'limit' => 50,
-  )
-);
-$topics = array();
-while ($row = $smcFunc['db_fetch_assoc']($request))
-  $topics[] = array(
-     'id_topic' => $row['id_topic'],
-     'subject' => $row['subject'],
-     'body' => $row['body'],
-     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
-  );
-$smcFunc['db_free_result']($request);
-
-echo '
-        <table style="margin-left: auto; margin-right: auto;"><tr><td>                  <div id="caja-carrusel">
-<div class="infiniteCarousel">
-<div class="wrapper" style="overflow-x: hidden; overflow-y: hidden; ">
-<ul>
-      
-                   ';
-foreach ($topics as $topic)
-  echo '
-                       
-      
-<li><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], ' </a></li>
-
-                      ';
-echo '
-                  
-   </ul>
-</div>
-</div></div> </td></tr></table>';
+	<div id="header">';
+	
+	flimslider();
 
 
 echo'
@@ -706,6 +587,127 @@ function template_button_strip($button_strip, $direction = 'top', $strip_options
 				implode('', $buttons), '
 			</ul>
 		</div>';
+}
+
+function flimslider() {
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+$.fn.infiniteCarousel = function () {
+    function repeat(str, num) {
+        return new Array( num + 1 ).join( str );
+    }
+  
+    return this.each(function () {
+        var $wrapper = $(\'> div\', this).css(\'overflow\', \'hidden\'),
+            $slider = $wrapper.find(\'> ul\'),
+            $items = $slider.find(\'> li\'),
+            $single = $items.filter(\':first\'),
+            
+            singleWidth = $single.outerWidth(), 
+            visible = Math.ceil($wrapper.innerWidth() / singleWidth), // note: doesn\'t include padding or border
+            currentPage = 1,
+            pages = Math.ceil($items.length / visible);            
+
+            if (($items.length % visible) != 0) {
+            $slider.append(repeat(\'<li class="empty" />\', visible - ($items.length % visible)));
+            $items = $slider.find(\'> li\');
+        }
+
+        $items.filter(\':first\').before($items.slice(- visible).clone().addClass(\'cloned\'));
+        $items.filter(\':last\').after($items.slice(0, visible).clone().addClass(\'cloned\'));
+        $items = $slider.find(\'> li\'); 
+        
+        $wrapper.scrollLeft(singleWidth * visible);
+        
+            function gotoPage(page) {
+            var dir = page < currentPage ? -1 : 1,
+                n = Math.abs(currentPage - page),
+                left = singleWidth * dir * visible * n;
+            
+            $wrapper.filter(\':not(:animated)\').animate({
+                scrollLeft : \'+=\' + left
+            }, 500, function () {
+                if (page == 0) {
+                    $wrapper.scrollLeft(singleWidth * visible * pages);
+                    page = pages;
+                } else if (page > pages) {
+                    $wrapper.scrollLeft(singleWidth * visible);
+                    // reset back to start position
+                    page = 1;
+                } 
+                currentPage = page;
+            });                         
+            return false;
+        }
+        
+        $wrapper.after(\'<a class="icon-angle-left"></a><a class="icon-angle-right"></a>\');
+        
+          $(\'a.icon-angle-left\', this).click(function () {
+            return gotoPage(currentPage - 1);                
+        });
+        
+        $(\'a.icon-angle-right\', this).click(function () {
+            return gotoPage(currentPage + 1);
+        });
+        
+        $(this).bind(\'goto\', function (event, page) {
+            gotoPage(page);
+        });
+    });  
+};
+$(document).ready(function () {
+  $(\'.infiniteCarousel\').infiniteCarousel();
+});
+//]]>
+</script>';
+
+          global $smcFunc, $scripturl;
+
+$boards = array(1,2);
+
+$request = $smcFunc['db_query']('', '
+  SELECT t.id_topic, m.subject, m.body
+  FROM {db_prefix}topics AS t
+     INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
+  WHERE t.id_board IN ({array_int:boards})
+  ORDER BY t.id_topic DESC
+       LIMIT {int:limit}',
+  array(
+    'boards' => $boards,
+               'limit' => 50,
+  )
+);
+$topics = array();
+while ($row = $smcFunc['db_fetch_assoc']($request))
+  $topics[] = array(
+     'id_topic' => $row['id_topic'],
+     'subject' => $row['subject'],
+     'body' => $row['body'],
+     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
+  );
+$smcFunc['db_free_result']($request);
+
+echo '
+        <table style="margin-left: auto; margin-right: auto;"><tr><td>                  <div id="caja-carrusel">
+<div class="infiniteCarousel">
+<div class="wrapper" style="overflow-x: hidden; overflow-y: hidden; ">
+<ul>
+      
+                   ';
+foreach ($topics as $topic)
+  echo '
+                       
+      
+<li><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], ' </a></li>
+
+                      ';
+echo '
+                  
+   </ul>
+</div>
+</div></div> </td></tr></table>';
 }
 
 ?>
