@@ -13,6 +13,21 @@
 function template_main()
 {
 	global $context, $settings, $options, $txt, $scripturl, $modSettings;
+	
+	echo '
+	<div class="col3 floatright">';
+	categori();
+	echo '
+	</div>';
+	
+	echo '
+	<div class="col6 floatleft">';
+	sonfilm();
+	echo'
+	</div>';
+	
+	echo '
+	<br class="clear" />';
 
 	// Show some statistics if stat info is off.
 	if (!$settings['show_stats_index'])
@@ -83,170 +98,6 @@ function template_main()
 	// ]]></script>';
 	}
 
-	echo '
-	<div style="width:100%;"><div id="boardindex_table" style="width:30%; float:left; margin-right: 10px;>';
-
-	/* Each category in categories is made up of:
-	id, href, link, name, is_collapsed (is it collapsed?), can_collapse (is it okay if it is?),
-	new (is it new?), collapse_href (href to collapse/expand), collapse_image (up/down image),
-	and boards. (see below.) */
-	foreach ($context['categories'] as $category)
-	{
-		// If theres no parent boards we can see, avoid showing an empty category (unless its collapsed)
-		if (empty($category['boards']) && !$category['is_collapsed'])
-			continue;
-
-		
-
-		// Assuming the category hasn't been collapsed...
-		if (!$category['is_collapsed'])
-		{
-
-		echo '
-			<table class="content" id="category_', $category['id'], '_boards">';
-			/* Each board in each category's boards has:
-			new (is it new?), id, name, description, moderators (see below), link_moderators (just a list.),
-			children (see below.), link_children (easier to use.), children_new (are they new?),
-			topics (# of), posts (# of), link, href, and last_post. (see below.) */
-			foreach ($category['boards'] as $board)
-			{
-				echo '
-				<table id="board_', $board['id'], '" class="windowbg2" style="width: 100%;">
-					<tr class="info">
-						<td style="width:74%;"><a class="subject" href="', $board['href'], '" name="b', $board['id'], '">', $board['name'], '</a></td>';
-
-				
-				// Show some basic information about the number of posts, etc.
-					echo '
-				
-						<td style="width:20%;"><p>', $board['is_redirect'] ? '' : comma_format($board['topics']) . ' ' . $txt['board_topics'], '</p></td>
-					
-      <td style="width:5%;"><a href="' . $scripturl . '?action=.xml;board=' . $board['id'] . ';type=rss"><img src="' . $settings['images_url'] . '/rss.png" alt="rss" /></a></td>'; 
-
-echo'   
-				</tr>';
-				// Show the "Child Boards: ". (there's a link_children but we're going to bold the new ones...)
-				if (!empty($board['children']))
-				{
-					// Sort the links into an array with new boards bold so it can be imploded.
-					$children = array();
-					/* Each child in each board's children has:
-							id, name, description, new (is it new?), topics (#), posts (#), href, link, and last_post. */
-					foreach ($board['children'] as $child)
-					{
-						if (!$child['is_redirect'])
-							$child['link'] = '<a href="' . $child['href'] . '" ' . ($child['new'] ? 'class="new_posts" ' : '') . 'title="' . ($child['new'] ? $txt['new_posts'] : $txt['old_posts']) . ' (' . $txt['board_topics'] . ': ' . comma_format($child['topics']) . ', ' . $txt['posts'] . ': ' . comma_format($child['posts']) . ')">' . $child['name'] . ($child['new'] ? '</a> <a href="' . $scripturl . '?action=unread;board=' . $child['id'] . '" title="' . $txt['new_posts'] . ' (' . $txt['board_topics'] . ': ' . comma_format($child['topics']) . ', ' . $txt['posts'] . ': ' . comma_format($child['posts']) . ')"><img src="' . $settings['lang_images_url'] . '/new.gif" class="new_posts" alt="" />' : '') . '</a>';
-						else
-							$child['link'] = '<a href="' . $child['href'] . '" title="' . comma_format($child['posts']) . ' ' . $txt['redirects'] . '">' . $child['name'] . '</a>';
-
-						// Has it posts awaiting approval?
-						if ($child['can_approve_posts'] && ($child['unapproved_posts'] || $child['unapproved_topics']))
-							$child['link'] .= ' <a href="' . $scripturl . '?action=moderate;area=postmod;sa=' . ($child['unapproved_topics'] > 0 ? 'topics' : 'posts') . ';brd=' . $child['id'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '" title="' . sprintf($txt['unapproved_posts'], $child['unapproved_topics'], $child['unapproved_posts']) . '" class="moderation_link">(!)</a>';
-
-						$children[] = $child['new'] ? '<strong>' . $child['link'] . '</strong>' : $child['link'];
-					}
-					echo '
-					<tr id="board_', $board['id'], '_children">
-						<td colspan="3" class="children windowbg">
-							<table style="width:100%" class="windowbg2">
-								<tr>';
-
-							foreach ($children as $key => $child)
-							{
-								if ($key % 2 == 0 && $key != 0)
-								echo '
-								</tr>
-								<tr>';
-
-								echo '
-									<td style="padding-left: 10px;">', $child, '</td>';
-							}
-
-							echo '
-								</tr>
-							</table>
-						</td>
-					</tr>';
-				}
-			}
-		echo '
-			</table>';
-		}
-
-	}
-	echo '
-		</div>';
-		global $smcFunc, $scripturl;
-
-$boards = array(1,2);
-
-$request = $smcFunc['db_query']('', '
-  SELECT t.id_topic, m.subject, m.body
-  FROM {db_prefix}topics AS t
-     INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
-  WHERE t.id_board IN ({array_int:boards})
-  ORDER BY t.id_topic DESC
-       LIMIT {int:limit}',
-  array(
-    'boards' => $boards,
-               'limit' => 50,
-  )
-);
-$topics = array();
-while ($row = $smcFunc['db_fetch_assoc']($request))
-  $topics[] = array(
-     'id_topic' => $row['id_topic'],
-     'subject' => $row['subject'],
-     'body' => $row['body'],
-     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="345" width="302" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
-  );
-$smcFunc['db_free_result']($request);
-
-echo '
-       <div style="width:66%;"> <table width="100%"><tr>
-      
-                   ';
-foreach ($topics as $topic)
-  echo '
-                       
-      
-<td style=" float:left;padding: 10px 10px;"><div class="divboard">',  $topic['subject'], '</div><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '  </a></td>  ';
-echo '
-     </tr></table>
-	</div></div><br class="clear"></br>';
-
-	if ($context['user']['is_logged'])
-	{
-		echo '
-	<div id="posting_icons" class="floatleft">';
-
-		// Mark read button.
-		$mark_read_button = array(
-			'markread' => array('text' => 'mark_as_read', 'image' => 'markread.gif', 'lang' => true, 'url' => $scripturl . '?action=markasread;sa=all;' . $context['session_var'] . '=' . $context['session_id']),
-		);
-
-		echo '
-		<ul class="reset">
-			<li class="floatleft"><img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'new_some.png" alt="" /> ', $txt['new_posts'], '</li>
-			<li class="floatleft"><img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'new_none.png" alt="" /> ', $txt['old_posts'], '</li>
-			<li class="floatleft"><img src="', $settings['images_url'], '/', $context['theme_variant_url'], 'new_redirect.png" alt="" /> ', $txt['redirect_board'], '</li>
-		</ul>
-	</div>';
-
-		// Show the mark all as read button?
-		if ($settings['show_mark_read'] && !empty($context['categories']))
-			echo '<div class="mark_read">', template_button_strip($mark_read_button, 'right'), '</div>';
-	}
-	else
-	{
-		echo '
-	<div id="posting_icons" class="flow_hidden">
-		<ul class="reset">
-			<li class="floatleft"><img src="', $settings['images_url'], '/new_none.png" alt="" /> ', $txt['old_posts'], '</li>
-			<li class="floatleft"><img src="', $settings['images_url'], '/new_redirect.png" alt="" /> ', $txt['redirect_board'], '</li>
-		</ul>
-	</div>';
-	}
 
 	template_info_center();
 }
@@ -488,5 +339,129 @@ function template_info_center()
 			}
 		});
 	// ]]></script>';
+}
+
+
+function sonfilm(){
+		global $smcFunc, $context, $settings, $options, $txt, $scripturl, $modSettings;
+		
+
+$boards = array(1,2);
+
+$request = $smcFunc['db_query']('', '
+  SELECT t.id_topic, m.subject, m.body
+  FROM {db_prefix}topics AS t
+     INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
+  WHERE t.id_board IN ({array_int:boards})
+  ORDER BY t.id_topic DESC
+       LIMIT {int:limit}',
+  array(
+    'boards' => $boards,
+               'limit' => 50,
+  )
+);
+$topics = array();
+while ($row = $smcFunc['db_fetch_assoc']($request))
+  $topics[] = array(
+     'id_topic' => $row['id_topic'],
+     'subject' => $row['subject'],
+     'body' => $row['body'],
+     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="155" width="100%" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
+  );
+$smcFunc['db_free_result']($request);
+    
+	echo '
+	<div id="sonfilmayar">';
+	
+foreach ($topics as $topic)
+    echo '
+	 <div class="sonfilmayar20">
+      <div class="divboard">',  $topic['subject'], '</div><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '</a>
+	 </div>';
+	  
+	echo '
+	</div>';
+}
+function categori(){
+    global $context, $settings, $options, $txt, $scripturl, $modSettings;
+
+	/* Each category in categories is made up of:
+	id, href, link, name, is_collapsed (is it collapsed?), can_collapse (is it okay if it is?),
+	new (is it new?), collapse_href (href to collapse/expand), collapse_image (up/down image),
+	and boards. (see below.) */
+	foreach ($context['categories'] as $category)
+	{
+
+		echo '
+			<table class="content" id="category_', $category['id'], '_boards">';
+			/* Each board in each category's boards has:
+			new (is it new?), id, name, description, moderators (see below), link_moderators (just a list.),
+			children (see below.), link_children (easier to use.), children_new (are they new?),
+			topics (# of), posts (# of), link, href, and last_post. (see below.) */
+			foreach ($category['boards'] as $board)
+			{
+				echo '
+				<table id="board_', $board['id'], '" class="win1" style="width: 100%;">
+					<tr class="info">
+						<td style="width:74%;"><a class="subject" href="', $board['href'], '" name="b', $board['id'], '">', $board['name'], '</a></td>';
+
+				
+				// Show some basic information about the number of posts, etc.
+					echo '
+				
+						<td style="width:20%;"><span>', $board['is_redirect'] ? '' : comma_format($board['topics']) . ' ' . $txt['board_topics'], '</span></td>
+					
+                <td style="width:5%;"><a href="' . $scripturl . '?action=.xml;board=' . $board['id'] . ';type=rss"><img src="' . $settings['images_url'] . '/rss.png" alt="rss" /></a></td>'; 
+
+echo'   
+				</tr>';
+				// Show the "Child Boards: ". (there's a link_children but we're going to bold the new ones...)
+				if (!empty($board['children']))
+				{
+					// Sort the links into an array with new boards bold so it can be imploded.
+					$children = array();
+					/* Each child in each board's children has:
+							id, name, description, new (is it new?), topics (#), posts (#), href, link, and last_post. */
+					foreach ($board['children'] as $child)
+					{
+						if (!$child['is_redirect'])
+							$child['link'] = '<a href="' . $child['href'] . '" ' . ($child['new'] ? 'class="new_posts" ' : '') . 'title="' . ($child['new'] ? $txt['new_posts'] : $txt['old_posts']) . ' (' . $txt['board_topics'] . ': ' . comma_format($child['topics']) . ', ' . $txt['posts'] . ': ' . comma_format($child['posts']) . ')">' . $child['name'] . ($child['new'] ? '</a> <a href="' . $scripturl . '?action=unread;board=' . $child['id'] . '" title="' . $txt['new_posts'] . ' (' . $txt['board_topics'] . ': ' . comma_format($child['topics']) . ', ' . $txt['posts'] . ': ' . comma_format($child['posts']) . ')"><img src="' . $settings['lang_images_url'] . '/new.gif" class="new_posts" alt="" />' : '') . '</a>';
+						else
+							$child['link'] = '<a href="' . $child['href'] . '" title="' . comma_format($child['posts']) . ' ' . $txt['redirects'] . '">' . $child['name'] . '</a>';
+
+						// Has it posts awaiting approval?
+						if ($child['can_approve_posts'] && ($child['unapproved_posts'] || $child['unapproved_topics']))
+							$child['link'] .= ' <a href="' . $scripturl . '?action=moderate;area=postmod;sa=' . ($child['unapproved_topics'] > 0 ? 'topics' : 'posts') . ';brd=' . $child['id'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '" title="' . sprintf($txt['unapproved_posts'], $child['unapproved_topics'], $child['unapproved_posts']) . '" class="moderation_link">(!)</a>';
+
+						$children[] = $child['new'] ? '<strong>' . $child['link'] . '</strong>' : $child['link'];
+					}
+					echo '
+					<tr id="board_', $board['id'], '_children">
+						<td colspan="3" class="children win2">
+							<table style="width:100%">
+								<tr>';
+
+							foreach ($children as $key => $child)
+							{
+								if ($key % 2 == 0 && $key != 0)
+								echo '
+								</tr>
+								<tr>';
+
+								echo '
+									<td style="padding-left: 10px;">', $child, '</td>';
+							}
+
+							echo '
+								</tr>
+							</table>
+						</td>
+					</tr>';
+				}
+			echo '
+			</table>';
+			}
+
+	}
 }
 ?>
