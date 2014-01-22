@@ -98,6 +98,18 @@ function template_html_above()
 	if ($context['right_to_left'])
 		echo '
 	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/rtl.css" />';
+	
+     //--[if lte IE 7]>
+     echo  '
+     <style type="text/css">
+     html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
+     </style>';
+     //[endif]-->
+
+    //menu code json_deco
+	echo '
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>';
+
 
 	// Here comes the JavaScript bits!
 	echo '
@@ -172,14 +184,17 @@ function template_body_above()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-	echo !empty($settings['forum_width']) ? '
-<div id="wrapper" style="width: ' . $settings['forum_width'] . '">' : '', '
-	<div id="header">';
+	echo '
+<div id="wrapper">';
 	
-	flimslider();
+	 flimslider();
+	echo '
+	<div id="filmmenu">
+	 ' , template_menu() ,'
+	</div>';
 
-
-echo'
+   echo '
+	<div id="header">
 		 <div id="top_section">
              <div class="news normaltext">';
 
@@ -351,14 +366,13 @@ refrClock();
 					sCookieName: \'upshrink\'
 				}
 			});
-		// ]]></script><div class="Tekmenu">';
-
-	// Show the menu here, according to the menu sub template.
-	template_menu();
+		// ]]></script>';
 
 	echo '
-		</div><br class="clear" />
+		<br class="clear" />
 	</div>';
+	
+
 
 	// The main content should go here.
 	echo '
@@ -435,8 +449,7 @@ function template_body_below()
 		<p>', $txt['page_created'], $context['load_time'], $txt['seconds_with'], $context['load_queries'], $txt['queries'], '</p>';
 
 	echo '
-	', !empty($settings['forum_width']) ? '
-</div>' : '';
+ </div>';
 }
 
 function template_html_below()
@@ -498,15 +511,15 @@ function template_menu()
 	global $context, $settings, $options, $scripturl, $txt;
 
 	echo '
-		<div id="main_menu">
-			<ul class="dropmenu" id="menu_nav">';
+   <div id="myslidemenu" class="jqueryslidemenu">
+    <ul>';
 
 	foreach ($context['menu_buttons'] as $act => $button)
 	{
 		echo '
 				<li id="button_', $act, '">
-					<a class="', $button['active_button'] ? 'active ' : '', 'firstlevel" href="', $button['href'], '"', isset($button['target']) ? ' target="' . $button['target'] . '"' : '', '>
-						<span class="', isset($button['is_last']) ? 'last ' : '', 'firstlevel">', $button['title'], '</span>
+					<a class="', $button['active_button'] ? 'active ' : '" href="', $button['href'], '"', isset($button['target']) ? ' target="' . $button['target'] . '"' : '', '>
+						', $button['title'], '
 					</a>';
 		if (!empty($button['sub_buttons']))
 		{
@@ -518,7 +531,7 @@ function template_menu()
 				echo '
 						<li>
 							<a href="', $childbutton['href'], '"', isset($childbutton['target']) ? ' target="' . $childbutton['target'] . '"' : '', '>
-								<span', isset($childbutton['is_last']) ? ' class="last"' : '', '>', $childbutton['title'], !empty($childbutton['sub_buttons']) ? '...' : '', '</span>
+							', $childbutton['title'], !empty($childbutton['sub_buttons']) ? '...' : '', '
 							</a>';
 				// 3rd level menus :)
 				if (!empty($childbutton['sub_buttons']))
@@ -530,7 +543,7 @@ function template_menu()
 						echo '
 								<li>
 									<a href="', $grandchildbutton['href'], '"', isset($grandchildbutton['target']) ? ' target="' . $grandchildbutton['target'] . '"' : '', '>
-										<span', isset($grandchildbutton['is_last']) ? ' class="last"' : '', '>', $grandchildbutton['title'], '</span>
+										', $grandchildbutton['title'], '
 									</a>
 								</li>';
 
@@ -550,7 +563,7 @@ function template_menu()
 
 	echo '
 			</ul>
-		</div>';
+          </div>';
 }
 
 // Generate a strip of buttons.
@@ -664,7 +677,7 @@ $(document).ready(function () {
 //]]>
 </script>';
 
-          global $smcFunc, $scripturl;
+          global $smcFunc, $scripturl, $settings, $options, $txt ,$context, $modSettings;
 
 $boards = array(1,2);
 
@@ -685,13 +698,12 @@ while ($row = $smcFunc['db_fetch_assoc']($request))
   $topics[] = array(
      'id_topic' => $row['id_topic'],
      'subject' => $row['subject'],
-     'body' => $row['body'],
-     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
+     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102"/>      ' : '',
   );
 $smcFunc['db_free_result']($request);
 
-echo '
-        <table style="margin-left: auto; margin-right: auto;"><tr><td>                  <div id="caja-carrusel">
+     echo '
+    <div id="caja-carrusel">
 <div class="infiniteCarousel">
 <div class="wrapper" style="overflow-x: hidden; overflow-y: hidden; ">
 <ul>
@@ -708,7 +720,7 @@ echo '
                   
    </ul>
 </div>
-</div></div> </td></tr></table>';
+</div></div>';
 }
 
 ?>
