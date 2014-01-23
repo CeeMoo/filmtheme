@@ -187,7 +187,7 @@ function template_body_above()
 	echo '
 <div id="wrapper">';
 	
-	 flimslider();
+	       if (!empty($settings['filmslider'])) {flimslider();}
 	echo '
 	<div id="filmmenu">
 	 ' , template_menu() ,'
