@@ -182,13 +182,44 @@ function template_settings()
 			'type' => 'text',
 			'size' => 8,
 		),
-'',
 	   
-	    array(
-	    'id' => 'filmslider',
-	    'label' => $txt['filmslider'],
+                '',
+	        array(
+	        'id' => 'filmslider',
+	        'label' => $txt['filmslider'],
 		'description' => $txt['filmslider_desc'],
 		),
+		
+		 '',
+	        array(
+	        'id' => 'active_teknobox0',
+	        'label' => $txt['teknobox0'],
+		'description' => $txt['site_link_desc'],
+		),
+	        array(
+	       'id' => 'url_teknobox0b',
+	       'label' => $txt['teknobox0b'],
+	       'description' => $txt['site_link_desc'],
+	       'type' => 'text',
+               ),
+               array(
+	      'id' => 'url_teknobox0i',
+	      'label' => $txt['teknobox0i'],
+		'description' => $txt['site_link_desc'],
+		'type' => 'text',
+               ),
+               array(
+	      'id' => 'url_teknobox0t',
+	      'label' => $txt['teknobox0t'],
+		'description' => $txt['site_link_desc'],
+		'type' => 'text',
+                ),
+             array(
+	    'id' => 'url_teknobox0',
+	    'label' => $txt['teknobox0d'],
+	    'type' => 'text',
+            ),
+		 '',		  
 	    array(
 	    'id' => 'active_teknobox1',
 	    'label' => $txt['teknobox1'],
