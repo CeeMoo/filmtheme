@@ -23,8 +23,8 @@ $txt['admin_youtube_one'] = 'YouTube Sayfan�z�n url si?';
 $txt['admin_rss_one'] = 'RSS Sayfan�z�n url si?';
 //slider
 
-$txt['filmslider'] ='header slider ';
-$txt['filmslider_desc'] ='header slider false/true ';
+$txt['filmslider'] ='üst slayt ';
+$txt['filmslider_desc'] ='üst slayt açık/kapalı ';
 //box
 $txt['teknobox1'] = '1.Alt Kutu Aktif Et';
 $txt['teknobox1b'] = 'Ba�l�k Yaz�n';
