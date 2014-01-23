@@ -25,6 +25,11 @@ $txt['admin_rss_one'] = 'Url of your RSS feed?';
 $txt['filmslider'] ='header slider ';
 $txt['filmslider_desc'] ='header slider false/true ';
 // box
+$txt['teknobox0'] = 'Footer Box Enabled';
+$txt['teknobox0b'] = 'Type a title';
+$txt['teknobox0i'] = 'image Url';
+$txt['teknobox0t'] = '2.Title';
+$txt['teknobox0d'] = 'html tag-li- automatic sorting or use html';
 $txt['teknobox1'] = '1.Footer Box Enabled';
 $txt['teknobox1b'] = 'Type a title';
 $txt['teknobox1i'] = 'image Url';
