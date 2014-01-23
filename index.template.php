@@ -391,23 +391,15 @@ function template_body_below()
 	</div>';
 	
 	// Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
-	echo '
+		echo '
 		<div id="fottmenu">
 	<div class="fottcontainer p1">
-		<div class="card">		
-			<div class="obverse">
-				<h1>SMF</h1>
-				<img src="' . $settings['images_url'] . '/195.png" alt="Teknoromi" />
-			</div>
-			<div class="reverse">
-				<h2>SMF Links</h2>
-				<ol>
-			<li><a id="button_xhtml" href="http://validator.w3.org/check?uri=referer" target="_blank" class="new_win" title="', $txt['valid_xhtml'], '"><span>', $txt['xhtml'], '</span></a></li>
-			', !empty($modSettings['xmlnews_enable']) && (!empty($modSettings['allow_guestAccess']) || $context['user']['is_logged']) ? '<li><a id="button_rss" href="' . $scripturl . '?action=.xml;type=rss" class="new_win"><span>' . $txt['rss'] . '</span></a></li>' : '', '
-			<li class="last"><a id="button_wap2" href="', $scripturl , '?wap2" class="new_win"><span>', $txt['wap2'], '</span></a></li>
-
-		</ol>';
-		echo '	</div>
+				<div class="card">';
+        if (!empty($settings['active_teknobox0'])) {
+        echo '<div class="obverse"><h1>',$settings['url_teknobox0b'],'</h1><img src="',$settings['url_teknobox0i'],'" alt="" /></div>
+			<div class="reverse"><h2>',$settings['url_teknobox0t'],'</h2><ol>',$settings['url_teknobox0'],'</ol></div>';
+        }			
+		echo '	
 		</div>
 	</div>
 	<div class="fottcontainer p2">
