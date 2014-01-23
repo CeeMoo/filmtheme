@@ -16,25 +16,29 @@ $txt['admin_rss'] = 'Aktif Et RSS?';
 
 
 // Url's
-$txt['admin_twitter_one'] = 'Twitter Sayfanýzýn url si?';
-$txt['admin_google_one'] = 'Google+ Sayfanýzýn url si?';
-$txt['admin_facebook_one'] = 'Facebook Sayfanýzýn url si?';
-$txt['admin_youtube_one'] = 'YouTube Sayfanýzýn url si?';
-$txt['admin_rss_one'] = 'RSS Sayfanýzýn url si?';
-// box
+$txt['admin_twitter_one'] = 'Twitter Sayfanï¿½zï¿½n url si?';
+$txt['admin_google_one'] = 'Google+ Sayfanï¿½zï¿½n url si?';
+$txt['admin_facebook_one'] = 'Facebook Sayfanï¿½zï¿½n url si?';
+$txt['admin_youtube_one'] = 'YouTube Sayfanï¿½zï¿½n url si?';
+$txt['admin_rss_one'] = 'RSS Sayfanï¿½zï¿½n url si?';
+//slider
+
+$txt['filmslider'] ='Ã¼st slayt ';
+$txt['filmslider_desc'] ='Ã¼st slayt aÃ§Ä±k/kapalÄ± ';
+//box
 $txt['teknobox1'] = '1.Alt Kutu Aktif Et';
-$txt['teknobox1b'] = 'Baþlýk Yazýn';
+$txt['teknobox1b'] = 'Baï¿½lï¿½k Yazï¿½n';
 $txt['teknobox1i'] = 'Resim Url Girin';
-$txt['teknobox1t'] = '2.Baþlýk';
-$txt['teknobox1d'] = 'html li taglarýný kullanýn 1-2-3 diye sýralar veya html kullanabiliriniz';
+$txt['teknobox1t'] = '2.Baï¿½lï¿½k';
+$txt['teknobox1d'] = 'html li taglarï¿½nï¿½ kullanï¿½n 1-2-3 diye sï¿½ralar veya html kullanabiliriniz';
 $txt['teknobox2'] = '2.Alt Kutu Aktif Et';
-$txt['teknobox2b'] = 'Baþlýk Yazýn';
+$txt['teknobox2b'] = 'Baï¿½lï¿½k Yazï¿½n';
 $txt['teknobox2i'] = 'Resim Url Girin';
-$txt['teknobox2t'] = '2.Baþlýk';
-$txt['teknobox2d'] = 'html li taglarýný kullanýn 1-2-3 diye sýralar veya html kullanabiliriniz';
+$txt['teknobox2t'] = '2.Baï¿½lï¿½k';
+$txt['teknobox2d'] = 'html li taglarï¿½nï¿½ kullanï¿½n 1-2-3 diye sï¿½ralar veya html kullanabiliriniz';
 $txt['teknobox3'] = '3.Alt Kutu Aktif Et';
-$txt['teknobox3b'] = 'Baþlýk Yazýn';
+$txt['teknobox3b'] = 'Baï¿½lï¿½k Yazï¿½n';
 $txt['teknobox3i'] = 'Resim Url Girin';
-$txt['teknobox3t'] = '2.Baþlýk';
-$txt['teknobox3d'] = 'html li taglarýný kullanýn 1-2-3 diye sýralar veya html kullanabiliriniz';
+$txt['teknobox3t'] = '2.Baï¿½lï¿½k';
+$txt['teknobox3d'] = 'html li taglarï¿½nï¿½ kullanï¿½n 1-2-3 diye sï¿½ralar veya html kullanabiliriniz';
 ?>
