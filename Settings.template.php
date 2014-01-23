@@ -183,6 +183,12 @@ function template_settings()
 			'size' => 8,
 		),
 '',
+	   
+	    array(
+	    'id' => 'filmslider',
+	    'label' => $txt['filmslider'],
+		'description' => $txt['filmslider_desc'],
+		),
 	    array(
 	    'id' => 'active_teknobox1',
 	    'label' => $txt['teknobox1'],
