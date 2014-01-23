@@ -22,10 +22,14 @@ $txt['admin_facebook_one'] = 'Facebook Sayfan�z�n url si?';
 $txt['admin_youtube_one'] = 'YouTube Sayfan�z�n url si?';
 $txt['admin_rss_one'] = 'RSS Sayfan�z�n url si?';
 //slider
-
 $txt['filmslider'] ='üst slayt ';
 $txt['filmslider_desc'] ='üst slayt açık/kapalı ';
 //box
+$txt['teknobox0'] = 'Alt Kutu Aktif Et';
+$txt['teknobox0b'] = 'Başlık Yazın';
+$txt['teknobox0i'] = 'Resim Url Girin';
+$txt['teknobox0t'] = '2.Başlık';
+$txt['teknobox0d'] = 'html li taglarını kullanın 1-2-3 diye sıralar veya html kullanabiliriniz';
 $txt['teknobox1'] = '1.Alt Kutu Aktif Et';
 $txt['teknobox1b'] = 'Ba�l�k Yaz�n';
 $txt['teknobox1i'] = 'Resim Url Girin';
