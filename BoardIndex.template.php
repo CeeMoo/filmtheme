@@ -366,7 +366,7 @@ while ($row = $smcFunc['db_fetch_assoc']($request))
      'id_topic' => $row['id_topic'],
      'subject' => $row['subject'],
      'body' => $row['body'],
-     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="155" width="100%" style="border-radius: 10px;box-shadow: 1px 1px 2px 1px #000000; " />      ' : '',
+     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="155" width="100%" />      ' : '',
   );
 $smcFunc['db_free_result']($request);
     
@@ -376,7 +376,7 @@ $smcFunc['db_free_result']($request);
 foreach ($topics as $topic)
     echo '
 	 <div class="sonfilmayar20">
-      <div class="divboard">',  $topic['subject'], '</div><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '</a>
+      <div class="boardfilmst">',  $topic['subject'], '</div><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '</a>
 	 </div>';
 	  
 	echo '
@@ -449,7 +449,7 @@ echo'
 								<tr>';
 
 								echo '
-									<td style="padding-left: 10px;">', $child, '</td>';
+									<td>', $child, '</td>';
 							}
 
 							echo '

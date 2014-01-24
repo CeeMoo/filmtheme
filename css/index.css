@@ -11,8 +11,11 @@ text-align: center;
 padding-left: 4px;
 color: blue;
 border-radius: 6px;}
+
+.boardfilmst{color:#fff;background:#335795;border-radius:4px 4px 0 0;padding: 6px;border-bottom: 2px solid #2C2F35;}
+
 #sonfilmayar {float:left; width:100%;}
-.sonfilmayar20 {float:left; width:23%; padding:5px 0 10px 12px;}
+.sonfilmayar20 {float:left; width:23%; padding:8px 1px 5px 9.5px;}
 .filmcategori{background:#335795;}
 .filmcategori a:visited,.filmcategori a:link{color:#fff;}
 
@@ -22,11 +25,14 @@ border-radius: 6px;}
 .catelistele  ul li ul li a{border-bottom:1px solid #E4D9C1;color:#45433F;}
 
 .win1{background:#335795;margin-bottom:5px;border-radius:5px;}
-.win1 span {background:#ded1b3;border-radius:6px;padding:3px;}
-.win1 a:link, .win1 a:visited{color:#fff;}
+.win1 span {background:#2D3035;border-radius:6px;padding:3px;color:#fafafa;}
+.win1 a:link, .win1 a:visited{color:#fff; margin:0 3px;}
 .win2 a:link, .win2 a:visited{color:#45433f;}
 .win2{background:#ECE4D3;border-radius:5px;margin:5px;padding:5px;}
 
+.timezaman {float:right;padding-left: 9px;}
+.timezaman #zaman2 {color:#E9E9E9;float:left;}
+.timezaman #zaman1 {color:#ddd;float:left;}
 
 #filmmenu {background:#335795; height:35px; border-radius:6px;}
 .jqueryslidemenu{
@@ -37,7 +43,7 @@ height:35px;
 
 .jqueryslidemenu ul{
 margin: 0;
-padding: 0;
+padding:0 2px 5px 0px;
 list-style-type: none;
 }
 
@@ -58,7 +64,6 @@ border-right: 1px solid #29497C;
 color: #2d2b2b;
 text-decoration: none;
 }
-.jqueryslidemenu ul li ul li a{background:#444;}
 * html .jqueryslidemenu ul li a{ /*IE6 hack to get sub menu links to behave correctly*/
 display: inline-block;
 position:relative;
@@ -93,12 +98,14 @@ top: 0;
 
 /* Sub level menu links style */
 .jqueryslidemenu ul li ul li a{
+background:#252627;
+color:#fafafa;
+border-right: 0;
 font: normal 13px Verdana;
 width: 160px; /*width of sub menus*/
 padding: 5px;
-margin: 0;
-border-top-width: 0;
-border-bottom: 1px solid gray;
+border-top: 1.7px solid #404243;
+border-bottom: 0.5px solid #404243;
 }
 
 .jqueryslidemenuz ul li ul li a:hover{ /*sub menus hover style*/
@@ -329,11 +336,21 @@ ul#navigation{margin:0;font-size:0.9em;padding:1em 0.4em;}
 ul#navigation li{float:none;font-size:0.95em;display:inline;}
 #adm_submenus{padding-left:2em;overflow:hidden;}
 .lisans{list-style: none outside none;margin-left: auto;margin-right: auto;width: 300px;margin-top: 1px;z-index: 99;background:#aaa;background-image:-moz-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-webkit-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-ms-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-o-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));-ms-border-radius:8px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px;-o-backface-visibility:hidden;-moz-backface-visibility:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden;-o-transform:perspective(1500px) rotateY(0deg);-moz-transform:perspective(1500px) rotateY(0deg);-webkit-transform:perspective(1500px) rotateY(0deg);transform:perspective(1500px) rotateY(0deg);-webkit-transition:1s 0s;-moz-transition:1s 0s;-o-transition:1s 0s;transition:1s 0s;}
-#header{float:left;width:100%;background:#aaa;background-image:-moz-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-webkit-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-ms-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-o-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));border-radius:10px;box-shadow:1px 7px 10px 1px #000;margin-bottom:10px}
+#header{margin-bottom:3px;margin-top:5px;width:98.6%;float:left;
+padding:2px;
+border:5px solid #15191D;
+background: #32363a; /* Old browsers */
+background: -moz-linear-gradient(top, hsla(210,7%,21%,1) 0%, hsla(218,9%,18%,1) 44%, hsla(218,12%,13%,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,hsla(210,7%,21%,1)), color-stop(44%,hsla(218,9%,18%,1)), color-stop(100%,hsla(218,12%,13%,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, hsla(210,7%,21%,1) 0%,hsla(218,9%,18%,1) 44%,hsla(218,12%,13%,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, hsla(210,7%,21%,1) 0%,hsla(218,9%,18%,1) 44%,hsla(218,12%,13%,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, hsla(210,7%,21%,1) 0%,hsla(218,9%,18%,1) 44%,hsla(218,12%,13%,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom, hsla(210,7%,21%,1) 0%,hsla(218,9%,18%,1) 44%,hsla(218,12%,13%,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#32363a', endColorstr='#1d2025',GradientType=0 ); /* IE6-9 */}
 #content_section{float:left;width:100%;background:#aaa;background-image:-moz-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-webkit-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-ms-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-o-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));border-radius:10px;box-shadow:1px 7px 10px 1px #000;margin-bottom:25px}
 #main_content_section{width:100%;min-height:200px;}
 h1.forumtitle{font-size:1.8em;font-family:Geneva, verdana, sans-serif;margin:0;padding:0;float:left;}
-#logo{float: right;}
+#logo{float: left;}
 #siteslogan, img#smflogo{margin:0;padding:0;float:right;line-height:3em;}
 h3, h4{padding-bottom:3px;}
 img#upshrink{float:right;margin:1em;}
@@ -350,9 +367,9 @@ div#upper_section div.user ul li{margin-bottom:2px;}
 div#upper_section div.news p{display:inline;}
 div#upper_section div.news form{float:right;}
 #top_section{overflow:hidden;padding:5px;}
-.news{float:left;width: 220px;padding-left: 5px;}
+.news{float:right;width: 220px;padding-left: 5px;}
 #upper_section{overflow:hidden;}
-#usergo{float:right;max-width: 295px;min-width: 289px;font: 70%/118% verdana;}
+#usergo{float:left;max-width: 295px;min-width: 289px;font: 70%/118% verdana;}
 #usergo  form{background: #e1e1e1;
 	width: 295px;
 	height:30px;
@@ -415,14 +432,15 @@ div#upper_section div.news form{float:right;}
 	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(89,222,27)), color-stop(0.15, rgb(83,179,38)), color-stop(0.8, rgb(66,143,27)), color-stop(1, rgb(54,120,22)));
 	background: -moz-linear-gradient( center bottom, #033E52 0%, #035773 15%, #058AB6 88%, #06BCF9 100%);
 }
-#teknouser{overflow:hidden;width: 250px;float: right;}
-#teknouser ul{width:100%;}
-#usergo li{float:right;line-height:10px;}
+#teknouser{overflow:hidden;width: 250px;float: left;}
+#teknouser ul{width:100%;list-style:none;padding:0;margin:0;}
+#usergo li{float:left;line-height:10px;}
+.tekno a{color:#8B9CB7;}
 #usergo li h2{color:white;text-shadow:1px 1px 4px #0466F9;}
 #teknouser img.avatar{border:1px solid #aaa;height:30px;width: 25px;}
-.navigate_section{padding:0.5em;margin:0 0 0 0;}
-.navigate_section ul{display:block;margin:0;font-size:0.9em;padding:1em 0 0.5em 0;overflow:hidden;list-style:none;clear:both;width:100%;}
-.navigate_section ul li{float:left;padding:0 0.5em 0 0;font-size:0.95em;background:#aaa;background-image:-moz-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-webkit-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-ms-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-o-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));border-radius:0px 25px 25px 0px;box-shadow:0px 0px 3px 0px #000;margin-left:8px;}
+.navigate_section{padding:0em;margin:0 0 0 0;}
+.navigate_section ul{display:block;margin:0;font-size:0.9em;padding:0;overflow:hidden;list-style:none;clear:both;width:100%;}
+.navigate_section ul li{float:left;padding:0;font-size:0.95em;margin:0px;}
 .navigate_section ul li a{white-space:pre;}
 select.qaction, input.qaction{font-size:0.85em;padding:0;}
 #mlist table tbody td.windowbg2{text-align:center;}
@@ -835,7 +853,7 @@ span.hidelink{font-style:italic;}
 #vtab > div{background:#aaa;background-image:-moz-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-webkit-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-ms-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:-o-linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));background-image:linear-gradient(30deg, rgba(255, 255, 255,0), rgba(255, 255, 255,0.7), rgba(255, 255, 255,0));border-radius:5px;box-shadow:1px 1px 1px 1px #000;margin-left:65px;height:226px;padding:12px;overflow:auto;position:relative;z-index:9;}
 #vtab > div > h4{color:#800;font-size:1.2em;border-bottom:1px dotted #800;padding-top:5px;margin-top:0;}
 .innerframe{clear:both;display:block;}
-.teknosocial{float: left;width: 170px;}
+.teknosocial{float: right;width: 170px;}
 .tekno_social{margin: 0px 0px 0px -24px;}
 .tekno_social li{float:left;list-style:none;}
 .tekno_social li a{display:block;width:29px;height:29px;}

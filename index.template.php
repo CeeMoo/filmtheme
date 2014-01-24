@@ -185,7 +185,7 @@ function template_body_above()
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
 	echo '
-<div id="wrapper">';
+    <div id="wrapper">';
 	
 	       if (!empty($settings['filmslider'])) {flimslider();}
 	echo '
@@ -195,28 +195,31 @@ function template_body_above()
 
    echo '
 	<div id="header">
-		 <div id="top_section">
-           ';
-
+		 <div id="top_section">';
+		 
 	// Show a random news item? (or you could pick one from news_lines...)
 	if (!empty($settings['enable_news']))
 		echo '
 		<div id="newscover">
 <div id="newscovery">
 <br/><h2>', $txt['news'], ': <br/>
-				', $context['random_news_line'], '</h2> </div></div>	
-				<div class="news normaltext"><form id="search_form" action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
-					<input type="text" name="search" value="" class="input_text" />&nbsp;
-					<input type="submit" name="submit" value="', $txt['search'], '" class="button_submit" />
-					<input type="hidden" name="advanced" value="0" /></form></div>';
+				', $context['random_news_line'], '</h2> </div></div>';
 
-echo ' 
+		 
+    echo '
+	<div id="logo">
+        <h1 class="forumtitle">
+             <a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img width="140" src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
+        </h1>
+    </div>';
+		 
+    echo ' 
     <div id="usergo">';
       // If the user is logged in, display stuff like their name, new messages, etc.
 	if ($context['user']['is_logged'])
 	{
             echo '<div id="teknouser">
-                    <ul class="reset">
+                    <ul class="tekno">
                                         <li>';
 		if (!empty($context['user']['avatar']))
                     echo 
@@ -250,9 +253,21 @@ echo '
 				</form>';
 	}
     echo '   </div>';
-	echo '<div style="float:left;padding-left: 9px;"><span style="color:#0466F9">',timeformat(time(),'%d %B %Y'), ' <br /></span>', $txt['saat'], ' <span style="color:#0466F9" id="clock2">', $txt['loading'], '</span>	
+	
+
+	echo '
+	<div class="news normaltext"><form id="search_form" action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
+					<input type="text" name="search" value="" class="input_text" />&nbsp;
+					<input type="submit" name="submit" value="', $txt['search'], '" class="button_submit" />
+					<input type="hidden" name="advanced" value="0" /></form></div>';
 					
-<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+    echo '
+	<div class="timezaman">
+	  <span id="zaman1">',timeformat(time(),'%d %B %Y'), '</span><br />
+	   ', $txt['saat'], ' 
+	  <span id="zaman2">', $txt['loading'], '</span>	
+					
+    <script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 function refrClock()
 {
 var d=new Date();
@@ -265,19 +280,15 @@ if (m<10) {m="0" + m}
 if (h>24) {h="24"}
 else {am_pm=""}
 if (h<10) {h="0" + h}
-document.getElementById("clock2").innerHTML=h + ":" + m + ":" + s + am_pm;
+document.getElementById("zaman2").innerHTML=h + ":" + m + ":" + s + am_pm;
 setTimeout("refrClock()",1000);
 }
 refrClock();
 	// ]]></script></div>';
-echo'
-        
-<div id="logo">
-                      <h1 class="forumtitle">
-<a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img width="140" src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
-    </h1>
-                    
-                </div>	 <div class="teknosocial">
+	
+	
+      echo'
+   <div class="teknosocial">
           
        <ul class="tekno_social">';
        if (!empty($settings['active_twitter'])) {
@@ -296,7 +307,8 @@ echo'
         echo '<li><a class="rss" href="' . $scripturl . '?action=.xml;type=rss" target="_blank"></a></li>';
         }
         echo '
-      <li></li></ul></div>';
+      </ul>
+	</div>';
 			
 
 
