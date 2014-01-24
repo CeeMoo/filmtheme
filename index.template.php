@@ -196,20 +196,23 @@ function template_body_above()
    echo '
 	<div id="header">
 		 <div id="top_section">
-             <div class="news normaltext">';
+           ';
 
 	// Show a random news item? (or you could pick one from news_lines...)
 	if (!empty($settings['enable_news']))
 		echo '
-				<h2>', $txt['news'], ': 
-				', $context['random_news_line'], '</h2>';
+		<div id="newscover">
+<div id="newscovery">
+<br/><h2>', $txt['news'], ': <br/>
+				', $context['random_news_line'], '</h2> </div></div>	
+				<div class="news normaltext"><form id="search_form" action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
+					<input type="text" name="search" value="" class="input_text" />&nbsp;
+					<input type="submit" name="submit" value="', $txt['search'], '" class="button_submit" />
+					<input type="hidden" name="advanced" value="0" /></form></div>';
 
-	echo '
-			</div>';
 echo ' 
     <div id="usergo">';
-                        
-				// If the user is logged in, display stuff like their name, new messages, etc.
+      // If the user is logged in, display stuff like their name, new messages, etc.
 	if ($context['user']['is_logged'])
 	{
             echo '<div id="teknouser">
@@ -221,19 +224,11 @@ echo '
                  else 
                     echo '<img class="avatar" src="' . $settings['images_url'] . '/avatar.png" alt="" />';
                  
-		echo '
-                                        </li>
+		echo '</li>
 					<li><h2>', $txt['hello_member_ndt'], '! ', $context['user']['name'], '</h2></li>
 					<li><a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a></li>
 					<li><a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a></li>';
-					
-
-		
-
-		echo '
-					
-				</ul>
-                 </div>';
+		echo '</ul></div>';
 	}
 	// Otherwise they're a guest - this time ask them to either register or login - lazy bums...
 	elseif (!empty($context['show_login_bar']))
@@ -243,13 +238,6 @@ echo '
 				<form id="guest_form" action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '" ', empty($context['disable_login_hashing']) ? ' onsubmit="hashLoginPassword(this, \'' . $context['session_id'] . '\');"' : '', '>
                                          <input type="text" name="user" class="input_text" value="' , $txt['username'] , '" onfocus="this.value=(this.value==\'' ,$txt['username'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['username'] , '\' : this.value;"/>
 					 <input type="password" name="passwrd"  class="input_password" value="' , $txt['password'] , '" onfocus="this.value=(this.value==\'' ,$txt['password'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['password'] , '\' : this.value;" />			
-                                                <select name="cookielength">
-						<option value="60">', $txt['one_hour'], '</option>
-						<option value="1440">', $txt['one_day'], '</option>
-						<option value="10080">', $txt['one_week'], '</option>
-						<option value="43200">', $txt['one_month'], '</option>
-						<option value="-1" selected="selected">', $txt['forever'], '</option>
-					</select>
 					<input type="submit" value="', $txt['login'], '" class="button_submit" /><br />';
                 
 
@@ -261,17 +249,32 @@ echo '
 					<input type="hidden" name="hash_passwrd" value="" />
 				</form>';
 	}
-         
-
-	echo '            </div>
-                
-            </div>
+    echo '   </div>';
+	echo '<div style="float:left;padding-left: 9px;"><span style="color:#0466F9">',timeformat(time(),'%d %B %Y'), ' <br /></span>', $txt['saat'], ' <span style="color:#0466F9" id="clock2">', $txt['loading'], '</span>	
+					
+<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+function refrClock()
+{
+var d=new Date();
+var s=d.getSeconds();
+var m=d.getMinutes();
+var h=d.getHours();
+var am_pm;
+if (s<10) {s="0" + s}
+if (m<10) {m="0" + m}
+if (h>24) {h="24"}
+else {am_pm=""}
+if (h<10) {h="0" + h}
+document.getElementById("clock2").innerHTML=h + ":" + m + ":" + s + am_pm;
+setTimeout("refrClock()",1000);
+}
+refrClock();
+	// ]]></script></div>';
+echo'
         
-        
-		<div id="upper_section" class="middletext"', empty($options['collapse_header']) ? '' : ' style="display: none;"', '>
 <div id="logo">
                       <h1 class="forumtitle">
-<a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
+<a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img width="140" src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
     </h1>
                     
                 </div>	 <div class="teknosocial">
@@ -293,84 +296,15 @@ echo '
         echo '<li><a class="rss" href="' . $scripturl . '?action=.xml;type=rss" target="_blank"></a></li>';
         }
         echo '
-      <li></li></ul></div>
-			<div class="news normaltext">
-				<form id="search_form" action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
-					<input type="text" name="search" value="" class="input_text" />&nbsp;
-					<input type="submit" name="submit" value="', $txt['search'], '" class="button_submit" />
-					<input type="hidden" name="advanced" value="0" />';
+      <li></li></ul></div>';
+			
 
-	// Search within current topic?
-	if (!empty($context['current_topic']))
-		echo '
-					<input type="hidden" name="topic" value="', $context['current_topic'], '" />';
-	// If we're on a certain board, limit it to this board ;).
-	elseif (!empty($context['current_board']))
-		echo '
-					<input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
-
-	echo '<br /><span style="color:#0466F9">',timeformat(time(),'%d %B %Y'), ' / </span>', $txt['saat'], ' <span style="color:#0466F9" id="clock2">', $txt['loading'], '</span>	
-					
-<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
-function refrClock()
-{
-var d=new Date();
-var s=d.getSeconds();
-var m=d.getMinutes();
-var h=d.getHours();
-var am_pm;
-if (s<10) {s="0" + s}
-if (m<10) {m="0" + m}
-if (h>24) {h="24"}
-else {am_pm=""}
-if (h<10) {h="0" + h}
-document.getElementById("clock2").innerHTML=h + ":" + m + ":" + s + am_pm;
-setTimeout("refrClock()",1000);
-}
-refrClock();
-	// ]]></script></form>';
 
 	
 
 	echo '
-			</div>
-		</div>
-		<br class="clear" />';
 
-	// Define the upper_section toggle in JavaScript.
-	echo '
-		<script type="text/javascript"><!-- // --><![CDATA[
-			var oMainHeaderToggle = new smc_Toggle({
-				bToggleEnabled: true,
-				bCurrentlyCollapsed: ', empty($options['collapse_header']) ? 'false' : 'true', ',
-				aSwappableContainers: [
-					\'upper_section\'
-				],
-				aSwapImages: [
-					{
-						sId: \'upshrink\',
-						srcExpanded: smf_images_url + \'/upshrink.png\',
-						altExpanded: ', JavaScriptEscape($txt['upshrink_description']), ',
-						srcCollapsed: smf_images_url + \'/upshrink2.png\',
-						altCollapsed: ', JavaScriptEscape($txt['upshrink_description']), '
-					}
-				],
-				oThemeOptions: {
-					bUseThemeSettings: ', $context['user']['is_guest'] ? 'false' : 'true', ',
-					sOptionName: \'collapse_header\',
-					sSessionVar: ', JavaScriptEscape($context['session_var']), ',
-					sSessionId: ', JavaScriptEscape($context['session_id']), '
-				},
-				oCookieOptions: {
-					bUseCookie: ', $context['user']['is_guest'] ? 'true' : 'false', ',
-					sCookieName: \'upshrink\'
-				}
-			});
-		// ]]></script>';
-
-	echo '
-		<br class="clear" />
-	</div>';
+	</div></div>';
 	
 
 	// Custom banners and shoutboxes should be placed here, before the linktree.
@@ -666,7 +600,8 @@ $(document).ready(function () {
 //]]>
 </script>';
 
-          global $smcFunc, $scripturl, $settings, $options, $txt ,$context, $modSettings;
+		
+ global $smcFunc, $scripturl, $settings, $options, $txt ,$context, $modSettings;
 
 $boards = array(1,2);
 
