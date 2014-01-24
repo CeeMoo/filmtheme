@@ -856,7 +856,7 @@ span.hidelink{font-style:italic;}
 .infiniteCarousel .wrapper ul{width:9999px;list-style:none;margin:0;padding:0;position:absolute;top:0;}
 .infiniteCarousel ul li{display:block;float:left;padding:9px 5px;height:142px;width:99px;}
 .infiniteCarousel ul li a img{display:block;color:#000;}
-.infiniteCarousel .icon-angle-right{right:-12px;font-size:60px;top:67px;position:absolute;cursor:pointer;}
+.infiniteCarousel .icon-angle-right{right:-11px;font-size:60px;top:67px;position:absolute;cursor:pointer;}
 .infiniteCarousel .icon-angle-left{left:-41px;font-size:60px;top:67px;position:absolute;cursor:pointer;}
 .pager-home{display:inline;}
 
