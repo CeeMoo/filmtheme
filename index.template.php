@@ -634,7 +634,7 @@ while ($row = $smcFunc['db_fetch_assoc']($request))
   $topics[] = array(
      'id_topic' => $row['id_topic'],
      'subject' => $row['subject'],
-     'first_image'  => preg_match_all('~\[img\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102"/>      ' : '',
+     'first_image'  => preg_match_all('~\[img.*?\]([^\]]+)\[\/img\]~i', $row['body'],  $images) ? '<img src="' . $images[1][0] . '" alt="' .  $row['subject'] . '" height="145" width="102"/>      ' : '',
   );
 $smcFunc['db_free_result']($request);
 
