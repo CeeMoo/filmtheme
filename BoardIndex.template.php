@@ -376,7 +376,7 @@ $smcFunc['db_free_result']($request);
 foreach ($topics as $topic)
     echo '
 	 <div class="sonfilmayar20">
-      <div class="boardfilmst">',  $topic['subject'], '</div><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '</a>
+      <a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0" class="boardfilmst">',  $topic['subject'], '</a><a  href="', $scripturl, '?topic=', $topic['id_topic'], '.0">',  $topic['first_image'], '</a>
 	 </div>';
 	  
 	echo '
