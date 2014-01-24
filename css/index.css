@@ -5,10 +5,10 @@
 .cat h3 a:link,.cat h3 a:visited{color:#fff;}
 .cat .collapse {background:#26416F;margin:5px;}
 #forumorta {background:#fff;border-radius:6px;}
-.divboard{font-size: 0px;
+.boardfilmst{font-size: 0px;
 position: absolute;
 width: 140px;height:155px;}
-.divboard:hover {background: #000;filter:alpha(opacity=30);
+.boardfilmst:hover {background: #000;filter:alpha(opacity=30);
 opacity:0.7;
 font-family: verdana;
 font-size: 12px;
@@ -17,8 +17,6 @@ padding-left: 4px;
 color: #fff;
 border-radius: 6px;position: absolute;
 width: 140px;height:155px;display:block;}
-.boardfilmst{color:#fff;background:#335795;border-radius:4px 4px 0 0;padding: 6px;border-bottom: 2px solid #2C2F35;}
-
 #sonfilmayar {float:left; width:100%;}
 .sonfilmayar20 {float:left; width:23%; padding:8px 1px 5px 9.5px;}
 .filmcategori{background:#335795;}
