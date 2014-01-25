@@ -22,7 +22,7 @@ function template_main()
 	
 	echo '
 	<div class="col6 floatleft">';
-	sonfilm();
+	if (!empty($settings['film_board'])) {sonfilm();}
 	echo'
 	</div>';
 	
@@ -346,7 +346,7 @@ function sonfilm(){
 		global $smcFunc, $context, $settings, $options, $txt, $scripturl, $modSettings;
 		
 
-$boards = array(1,2);
+$boards = array($settings['film_board1']);
 
 $request = $smcFunc['db_query']('', '
   SELECT t.id_topic, m.subject, m.body
