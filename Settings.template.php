@@ -184,12 +184,30 @@ function template_settings()
 		),
 	   
                 '',
-	        array(
-	        'id' => 'filmslider',
+	         array(
+	        'id' => 'film_board',
+	        'label' => $txt['filmboard'],
+		'description' => $txt['filmboard_desc'],
+		),
+			
+			 array(
+	       'id' => 'film_board1',
+	       'label' => $txt['bolum1'],
+	       'description' => $txt['bolum_desc'],
+	       'type' => 'text',
+               ),
+			array(
+	        'id' => 'film_slider',
 	        'label' => $txt['filmslider'],
 		'description' => $txt['filmslider_desc'],
 		),
-		
+			        array(
+	       'id' => 'bolum',
+	       'label' => $txt['bolum1'],
+	       'description' => $txt['bolum_desc'],
+	       'type' => 'text',
+               ),
+
 		 '',
 	        array(
 	        'id' => 'active_teknobox0',
