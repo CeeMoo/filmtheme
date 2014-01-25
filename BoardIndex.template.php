@@ -17,6 +17,7 @@ function template_main()
 	echo '
 	<div class="col3 floatright">';
 	categori();
+	sag_tag_block();
 	echo '
 	</div>';
 	
@@ -110,32 +111,27 @@ function template_info_center()
 	echo '
 	<span class="clear upperframe"><span></span></span>
 	<div class="roundframe"><div class="innerframe">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img class="icon" id="upshrink_ic" src="', $settings['images_url'], '/collapse.gif" alt="*" title="', $txt['upshrink_description'], '" style="display: none;" />
-				', sprintf($txt['info_center_title'], $context['forum_name_html_safe']), '
-			</h3>
-		</div>
-		<div id="upshrinkHeaderIC"', empty($options['collapse_header_ic']) ? '' : ' style="display: none;"', '><div id="vtab">
-	   <ul>
-			 <li class="messages"><img style="height:48px;width:48px;"  src="', $settings['images_url'], '/messages.png" alt="" /></li>
-			 <li class="stats"><img style="height:48px;width:48px;"  src="', $settings['images_url'], '/Stats.png" alt="" /></li>
-			<li class="online_users selected"><img style="height:48px;width:48px;"  src="', $settings['images_url'], '/user.png" alt="" /></li>
-	   </ul><div style="display: none;">';
+		
+		<div id="upshrinkHeaderIC"', empty($options['collapse_header_ic']) ? '' : ' style="display: none;"', '>
+		<div id="tabContainer">
+    <div id="tabs">
+      <ul>
+        <li id="tabHeader_1">Page 1</li>
+        <li id="tabHeader_2">Page 2</li>
+        <li id="tabHeader_3">Page 3</li>
+		<li id="tabHeader_4">Page 4</li>
+		<li id="tabHeader_5">Page 5</li>
+		<li id="tabHeader_6">Page 6</li>
+      </ul>
+    </div>
+    <div id="tabscontent">
+      <div class="tabpage" id="tabpage_1">';
 
 	// This is the "Recent Posts" bar.
 	if (!empty($settings['number_recent_posts'])  && (!empty($context['latest_posts']) || !empty($context['latest_post'])))
 	{
 		echo '
-			<div class="title_barIC">
-				<h4 class="titlebg">
-					<span class="ie6_header floatleft">
-						<a href="', $scripturl, '?action=recent"><img class="icon" src="', $settings['images_url'], '/post/xx.gif" alt="', $txt['recent_posts'], '" /></a>
-						', $txt['recent_posts'], '
-					</span>
-				</h4>
-			</div>
-			<div class="hslice" id="recent_posts_content">
+
 				<div class="entry-title" style="display: none;">', $context['forum_name_html_safe'], ' - ', $txt['recent_posts'], '</div>
 				<div class="entry-content" style="display: none;">
 					<a rel="feedurl" href="', $scripturl, '?action=.xml;type=webslice">', $txt['subscribe_webslice'], '</a>
@@ -167,8 +163,7 @@ function template_info_center()
 			echo '
 				</tbody></table>';
 		}
-		echo '
-			</div>';
+		
 	}
 
 	// Show information about events, birthdays, and holidays on the calendar.
@@ -213,13 +208,27 @@ function template_info_center()
 					', $event['can_edit'] ? '<a href="' . $event['modify_href'] . '" title="' . $txt['calendar_edit'] . '"><img src="' . $settings['images_url'] . '/icons/modify_small.gif" alt="*" /></a> ' : '', $event['href'] == '' ? '' : '<a href="' . $event['href'] . '">', $event['is_today'] ? '<strong>' . $event['title'] . '</strong>' : $event['title'], $event['href'] == '' ? '' : '</a>', $event['is_last'] ? '<br />' : ', ';
 		}
 		echo '
-			</p>';
+			</p></div>';
 	}
+echo '
+      </div><div class="tabpage" id="tabpage_2"><img src="http://upload.wikimedia.org/wikipedia/tr/0/03/Uzun_hikaye_2012_film_afis.jpg"/> </div>
+      <div class="tabpage" id="tabpage_3">sonra eklenecek</div>
+	  <div class="tabpage" id="tabpage_4">sonra eklenecek</div>
+      <div class="tabpage" id="tabpage_5">sonra eklenecek</div>
+      <div class="tabpage" id="tabpage_6">sonra eklenecek</div>
+	  </div></div>
 
+	  </div></div>
+	
+	<span class="lowerframe"><span></span></span>';
+}
+function sag_tag_block(){
+	global $context, $settings, $options, $txt, $scripturl, $modSettings;
 	// Show statistical style information...
 	if ($settings['show_stats_index'])
 	{
-		echo '</div><div style="display: none;">
+		echo ' 
+    
 			<div class="title_barIC">
 				<h4 class="titlebg">
 					<span class="ie6_header floatleft">
@@ -233,11 +242,11 @@ function template_info_center()
 				', (!empty($context['latest_post']) ? $txt['latest_post'] . ': <strong>&quot;' . $context['latest_post']['link'] . '&quot;</strong>  ( ' . $context['latest_post']['time'] . ' )<br />' : ''), '
 				<a href="', $scripturl, '?action=recent">', $txt['recent_view'], '</a>', $context['show_stats'] ? '<br />
 				<a href="' . $scripturl . '?action=stats">' . $txt['more_stats'] . '</a>' : '', '
-			</p></div>';
+			</p>';
 	}
 
 	// "Users online" - in order of activity.
-	echo '<div style="display: none;">
+	echo '
 			<div class="title_barIC">
 				<h4 class="titlebg">
 					<span class="ie6_header floatleft">
@@ -305,8 +314,7 @@ function template_info_center()
 	}
 
 	echo '
-		</div></div></div>
-	</div></div>
+	
 	<span class="lowerframe"><span></span></span>';
 
 	// Info center collapse object.
@@ -339,8 +347,8 @@ function template_info_center()
 			}
 		});
 	// ]]></script>';
-}
 
+}
 
 function sonfilm(){
 		global $smcFunc, $context, $settings, $options, $txt, $scripturl, $modSettings;
