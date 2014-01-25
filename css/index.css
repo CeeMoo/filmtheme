@@ -1,4 +1,3 @@
-
 #tabContainer {
 	width:700px;
 	padding:15px;
@@ -102,7 +101,7 @@ width: 140px;height:155px;display:block;}
 .catelistele  ul li ul li a{border-bottom:1px solid #E4D9C1;color:#45433F;}
 
 .win1{background:#335795;margin-bottom:5px;border-radius:5px;}
-.win1 span {background:#2D3035;border-radius:6px;padding:3px;color:#fafafa;}
+.win1 span {background: #2D3035;border-radius: 6px;padding: 3px;color: #fafafa;float: left;min-width: 66px;}
 .win1 a:link, .win1 a:visited{color:#fff; margin:0 3px;}
 .win2 a:link, .win2 a:visited{color:#45433f;}
 .win2{background:#ECE4D3;border-radius:5px;margin:5px;padding:5px;}
@@ -517,7 +516,17 @@ div#upper_section div.news form{float:right;}
 #teknouser img.avatar{border:1px solid #aaa;height:30px;width: 25px;}
 .navigate_section{padding:0em;margin:0 0 0 0;}
 .navigate_section ul{display:block;margin:0;font-size:0.9em;padding:0;overflow:hidden;list-style:none;clear:both;width:100%;}
-.navigate_section ul li{float:left;padding:0;font-size:0.95em;margin:0px;}
+.navigate_section ul li {
+float: left;
+padding: 0;
+font-size: 0.95em;
+margin: 1px;
+border-radius: 4px;
+background-color: #f5f5f5;
+margin-bottom: 3px;
+margin-top: 1px;
+padding: 4px;
+}
 .navigate_section ul li a{white-space:pre;}
 select.qaction, input.qaction{font-size:0.85em;padding:0;}
 #mlist table tbody td.windowbg2{text-align:center;}
