@@ -187,7 +187,7 @@ function template_body_above()
 	echo '
     <div id="wrapper">';
 	
-	       if (!empty($settings['filmslider'])) {flimslider();}
+	       if (!empty($settings['film_slider'])) {flimslider();}
 	echo '
 	<div id="filmmenu">
 	 ' , template_menu() ,'
@@ -614,9 +614,9 @@ $(document).ready(function () {
 
 		
  global $smcFunc, $scripturl, $settings, $options, $txt ,$context, $modSettings;
+		
 
-$boards = array(1,2);
-
+$boards=array($settings['bolum']);
 $request = $smcFunc['db_query']('', '
   SELECT t.id_topic, m.subject, m.body
   FROM {db_prefix}topics AS t
