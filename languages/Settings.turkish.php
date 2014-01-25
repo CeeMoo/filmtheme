@@ -21,9 +21,15 @@ $txt['admin_google_one'] = 'Google+ Sayfan�z�n url si?';
 $txt['admin_facebook_one'] = 'Facebook Sayfan�z�n url si?';
 $txt['admin_youtube_one'] = 'YouTube Sayfan�z�n url si?';
 $txt['admin_rss_one'] = 'RSS Sayfan�z�n url si?';
+
+
+$txt['filmboard'] ='anasayfa resim ';
+$txt['filmboard_desc'] ='anasayfa açık/kapalı ';
 //slider
 $txt['filmslider'] ='üst slayt ';
 $txt['filmslider_desc'] ='üst slayt açık/kapalı ';
+$txt['bolum1'] ='Board id Giriniz';
+$txt['bolum_desc'] ='<font size="3" color="red">DİKKAT:</font>boş bırakmanız durumunda hata alırsınız örnek 1,2,3';
 //box
 $txt['teknobox0'] = 'Alt Kutu Aktif Et';
 $txt['teknobox0b'] = 'Başlık Yazın';
