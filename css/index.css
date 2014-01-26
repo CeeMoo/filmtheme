@@ -1,43 +1,15 @@
-#tabContainer {
-	padding:0px;
-}
+#filmmenu  a.homecon {background:url(../images/theme/icon-home-32.png) #26416F; width:32px;height:34px;position:absolute; margin:0px;border-radius:6px 0px 0px 6px;border-right:1px solid #5974a1;}
+.jqueryslidemenu ul li a.active{color:#fafafa;font-weight:bold;}
 
-#tabs{
-	overflow:hidden;
-	background-color:#335795;
-	border-radius:6px 0 0 0;
-	padding:10px;
-	margin:0 -1px 0px 0px;
-}
-#konuis{
-    color:#fff;
-	background-color:#335795;
-	padding:5px;
-	font-size:14px;
-	margin:0 -1px 0px 0px;
-}
 
-#tabs > ul{
-	font: 1em;
-	list-style:none;
-	padding:0;
-	margin:0;
-}
+#tabContainer {padding:0px;}
 
-#tabs > ul > li{
-	margin:0 2px 0 0;
-	padding:7px 10px;
-	display:block;
-	float:left;
-	color:#ECE4D3;
-	font-weight:bold;
-}
+#tabs{	overflow:hidden;	background-color:#335795;	border-radius:6px 0 0 0;	padding:3px;	margin:0 -1px 0px 0px;}
 
-#tabs > ul > li:hover{
-	cursor:pointer;
-	color: #f5f5f5;
-}
-
+#konuis{    color:#fff;	background-color:#335795;	padding:5px;	font-size:14px;	margin:0 -1px 0px 0px;}
+#tabs > ul{	font: 1em;	list-style:none;	padding:0;	margin:0;}
+#tabs > ul > li{	margin:0 2px 0 0;	padding:7px 10px;	display:block;	float:left;	color:#ECE4D3;	font-weight:bold;}
+#tabs > ul > li:hover{	cursor:pointer;	color: #f5f5f5;}
 #tabs > ul > li.tabActiveHeader{
 	cursor:pointer;
 	color: #fff;
@@ -51,6 +23,7 @@
 	margin:0;
 	color:#333;
 }
+#tabscontent p {padding:0; margin:0;}
 
 .col6 {width:64.6%;}
 .col3 {width:33.3333%;background:#F5F1E8;padding:10px;box-shadow:2px 0 5px 0 #E6DBC4 inset;border-top-right-radius:6px;}
@@ -92,7 +65,7 @@ width: 143px;height:155px;display:block;}
 
 #filmmenu {background:#335795; height:35px; border-radius:6px;}
 .jqueryslidemenu{
-font: bold 12px Verdana;
+font: 12px Verdana;
 width: 100%;
 height:35px;
 }
@@ -109,6 +82,7 @@ position: relative;
 display: inline;
 float: left;
 }
+#button_home {margin-left:28px;}
 #button_logout a {border-right:none;}
 #button_register a {border-right:none;}
 /*Top level menu link items style*/
@@ -173,7 +147,7 @@ color: black;
 
 .downarrowclass{
 position: absolute;
-top: 12px;
+top: 13.5px;
 right: 7px;
 }
 
@@ -488,9 +462,9 @@ div#upper_section div.news form{float:right;}
 	background: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgb(89,222,27)), color-stop(0.15, rgb(83,179,38)), color-stop(0.8, rgb(66,143,27)), color-stop(1, rgb(54,120,22)));
 	background: -moz-linear-gradient( center bottom, #033E52 0%, #035773 15%, #058AB6 88%, #06BCF9 100%);
 }
-#teknouser{overflow:hidden;width: 250px;float: left;}
+#teknouser{overflow:hidden;width: 250px;float: right;}
 #teknouser ul{width:100%;list-style:none;padding:0;margin:0;}
-#usergo li{float:left;line-height:10px;}
+#usergo li{float:right;line-height:10px;}
 .tekno a{color:#8B9CB7;}
 #usergo li h2{color:white;text-shadow:1px 1px 4px #0466F9;}
 #teknouser img.avatar{border:1px solid #aaa;height:30px;width: 25px;}
