@@ -615,7 +615,8 @@ $(document).ready(function () {
  global $smcFunc, $scripturl, $settings, $options, $txt ,$context, $modSettings;
 		
 
-$boards=array($settings['bolum']);
+$boards=array(3);
+
 $request = $smcFunc['db_query']('', '
   SELECT t.id_topic, m.subject, m.body
   FROM {db_prefix}topics AS t
