@@ -194,6 +194,7 @@ function template_body_above()
 
    echo '
 	<div id="header">
+
 		 <div id="top_section">';
 		 
 	// Show a random news item? (or you could pick one from news_lines...)
@@ -205,53 +206,7 @@ function template_body_above()
 				', $context['random_news_line'], '</h2> </div></div>';
 
 		 
-    echo '
-	<div id="logo">
-        <h1 class="forumtitle">
-             <a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img width="140" src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
-        </h1>
-    </div>';
-		 
-    echo ' 
-    <div id="usergo">';
-      // If the user is logged in, display stuff like their name, new messages, etc.
-	if ($context['user']['is_logged'])
-	{
-            echo '<div id="teknouser">
-                    <ul class="tekno">
-                                        <li>';
-		if (!empty($context['user']['avatar']))
-                    echo 
-                           $context['user']['avatar']['image'];
-                 else 
-                    echo '<img class="avatar" src="' . $settings['images_url'] . '/avatar.png" alt="" />';
-                 
-		echo '</li>
-					<li><h2>', $txt['hello_member_ndt'], '! ', $context['user']['name'], '</h2></li>
-					<li><a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a></li>
-					<li><a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a></li>';
-		echo '</ul></div>';
-	}
-	// Otherwise they're a guest - this time ask them to either register or login - lazy bums...
-	elseif (!empty($context['show_login_bar']))
-	{
-		echo '
-				<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/sha1.js"></script>
-				<form id="guest_form" action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '" ', empty($context['disable_login_hashing']) ? ' onsubmit="hashLoginPassword(this, \'' . $context['session_id'] . '\');"' : '', '>
-                                         <input type="text" name="user" class="input_text" value="' , $txt['username'] , '" onfocus="this.value=(this.value==\'' ,$txt['username'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['username'] , '\' : this.value;"/>
-					 <input type="password" name="passwrd"  class="input_password" value="' , $txt['password'] , '" onfocus="this.value=(this.value==\'' ,$txt['password'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['password'] , '\' : this.value;" />			
-					<input type="submit" value="', $txt['login'], '" class="button_submit" /><br />';
-                
-
-		if (!empty($modSettings['enableOpenID']))
-			echo '
-					<br /><input type="text" name="openid_identifier" id="openid_url" size="25" class="input_text openid_login" />';
-
-		echo '
-					<input type="hidden" name="hash_passwrd" value="" />
-				</form>';
-	}
-    echo '   </div>';
+    
 	
 
 	echo '
@@ -315,7 +270,53 @@ refrClock();
 
 	echo '
 
-	</div></div>';
+	</div>
+	<div id="logo">
+        <h1 class="forumtitle">
+             <a href="', $scripturl, '">', empty($context['header_logo_url_html_safe']) ? '<img width="140" src="' . $settings['images_url'] . '/logo.png" alt="' . $context['forum_name'] . '" />' : '<img src="' . $context['header_logo_url_html_safe'] . '" alt="' . $context['forum_name'] . '" />', '</a>			
+        </h1>
+    </div>';
+		 
+    echo ' 
+    <div id="usergo">';
+      // If the user is logged in, display stuff like their name, new messages, etc.
+	if ($context['user']['is_logged'])
+	{
+            echo '<div id="teknouser">
+                    <ul class="tekno">
+                                        <li>';
+		if (!empty($context['user']['avatar']))
+                    echo 
+                           $context['user']['avatar']['image'];
+                 else 
+                    echo '<img class="avatar" src="' . $settings['images_url'] . '/avatar.png" alt="" />';
+                 
+		echo '</li>
+					<li><h2>', $txt['hello_member_ndt'], '! ', $context['user']['name'], '</h2></li>
+					<li><a href="', $scripturl, '?action=unread">', $txt['unread_since_visit'], '</a></li>
+					<li><a href="', $scripturl, '?action=unreadreplies">', $txt['show_unread_replies'], '</a></li>';
+		echo '</ul></div>';
+	}
+	// Otherwise they're a guest - this time ask them to either register or login - lazy bums...
+	elseif (!empty($context['show_login_bar']))
+	{
+		echo '
+				<script type="text/javascript" src="', $settings['default_theme_url'], '/scripts/sha1.js"></script>
+				<form id="guest_form" action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '" ', empty($context['disable_login_hashing']) ? ' onsubmit="hashLoginPassword(this, \'' . $context['session_id'] . '\');"' : '', '>
+                                         <input type="text" name="user" class="input_text" value="' , $txt['username'] , '" onfocus="this.value=(this.value==\'' ,$txt['username'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['username'] , '\' : this.value;"/>
+					 <input type="password" name="passwrd"  class="input_password" value="' , $txt['password'] , '" onfocus="this.value=(this.value==\'' ,$txt['password'] , '\') ? \'\' : this.value;" onblur="this.value=(this.value==\'\') ? \'' ,$txt['password'] , '\' : this.value;" />			
+					<input type="submit" value="', $txt['login'], '" class="button_submit" /><br />';
+                
+
+		if (!empty($modSettings['enableOpenID']))
+			echo '
+					<br /><input type="text" name="openid_identifier" id="openid_url" size="25" class="input_text openid_login" />';
+
+		echo '
+					<input type="hidden" name="hash_passwrd" value="" />
+				</form>';
+	}
+    echo '   </div></div>';
 	
 
 	// Custom banners and shoutboxes should be placed here, before the linktree.
