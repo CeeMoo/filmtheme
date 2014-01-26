@@ -183,23 +183,7 @@ function template_body_above()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-	echo '<script type="text/javascript" src="', $settings['theme_url'], '/scripts/modernizr.custom.js"></script>
-<div id="st-container" class="st-container">
-		<div class="st-content">
-		<div class="st-content-inner">
-		<div class="st-pusher">
-				<nav class="st-menu st-effect-6" id="menu-6">
-					<h2 class="icon icon-stack">Son Konular</h2>';
-							ssi_topBoards();
-				echo'</nav>
-						<div class="main clearfix">
-							<div id="st-trigger-effects" class="column">
-								<button data-effect="st-effect-6">Son konular</button>
-						
-							</div>	
-						</div>
-	
-			
+	echo '
     <div id="wrapper">';
 	
 	       if (!empty($settings['film_slider'])) {flimslider();}
@@ -408,11 +392,7 @@ function template_html_below()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-	echo '</div>
-		</div>
-		</div>
-		</div><script type="text/javascript" src="', $settings['theme_url'], '/scripts/classie.js"></script>
-		<script type="text/javascript" src="', $settings['theme_url'], '/scripts/sidebarEffects.js"></script>
+	echo '
 </body></html>';
 }
 function ssi_topBoards($num_top = 10, $output_method = 'echo')
