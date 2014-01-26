@@ -183,15 +183,28 @@ function template_body_above()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-	echo '
+	echo '<script type="text/javascript" src="', $settings['theme_url'], '/scripts/modernizr.custom.js"></script>
+<div id="st-container" class="st-container">
+		<div class="st-content">
+		<div class="st-content-inner">
+		<div class="st-pusher">
+				<nav class="st-menu st-effect-6" id="menu-6">
+					<h2 class="icon icon-stack">Son Konular</h2>';
+							ssi_topBoards();
+				echo'</nav>
+						<div class="main clearfix">
+							<div id="st-trigger-effects" class="column">
+								<button data-effect="st-effect-6">Son konular</button>
+						
+							</div>	
+						</div>
+	
+			
     <div id="wrapper">';
 	
 	       if (!empty($settings['film_slider'])) {flimslider();}
 	echo '
 	<div id="filmmenu">
-	 <div id="home">
-	  <a class="homecon" href="',$scripturl,'"></a>
-	 </div>
 	 ' , template_menu() ,'
 	</div>';
 
@@ -394,8 +407,66 @@ function template_html_below()
 {
 	global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-	echo '
+	echo '</div>
+		</div>
+		</div>
+		</div><script type="text/javascript" src="', $settings['theme_url'], '/scripts/classie.js"></script>
+		<script type="text/javascript" src="', $settings['theme_url'], '/scripts/sidebarEffects.js"></script>
 </body></html>';
+}
+function ssi_topBoards($num_top = 10, $output_method = 'echo')
+{
+	global $context, $settings, $db_prefix, $txt, $scripturl, $user_info, $modSettings, $smcFunc;
+
+	// Find boards with lots of posts.
+	$request = $smcFunc['db_query']('', '
+		SELECT
+			b.name, b.num_topics, b.num_posts, b.id_board,' . (!$user_info['is_guest'] ? ' 1 AS is_read' : '
+			(IFNULL(lb.id_msg, 0) >= b.id_last_msg) AS is_read') . '
+		FROM {db_prefix}boards AS b
+			LEFT JOIN {db_prefix}log_boards AS lb ON (lb.id_board = b.id_board AND lb.id_member = {int:current_member})
+		WHERE {query_wanna_see_board}' . (!empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0 ? '
+			AND b.id_board != {int:recycle_board}' : '') . '
+		ORDER BY b.num_posts DESC
+		LIMIT ' . $num_top,
+		array(
+			'current_member' => $user_info['id'],
+			'recycle_board' => (int) $modSettings['recycle_board'],
+		)
+	);
+	$boards = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$boards[] = array(
+			'id' => $row['id_board'],
+			'num_posts' => $row['num_posts'],
+			'num_topics' => $row['num_topics'],
+			'name' => $row['name'],
+			'new' => empty($row['is_read']),
+			'href' => $scripturl . '?board=' . $row['id_board'] . '.0',
+			'link' => '<a href="' . $scripturl . '?board=' . $row['id_board'] . '.0">' . $row['name'] . '</a>'
+		);
+	$smcFunc['db_free_result']($request);
+
+	// If we shouldn't output or have nothing to output, just jump out.
+	if ($output_method != 'echo' || empty($boards))
+		return $boards;
+
+	echo '
+		<table class="ssi_table">
+			<tr>
+				<th align="left">', $txt['board'], '</th>
+				<th align="left">', $txt['board_topics'], '</th>
+				<th align="left">', $txt['posts'], '</th>
+			</tr>';
+	foreach ($boards as $board)
+		echo '
+			<tr>
+				<td>', $board['link'], $board['new'] ? ' <a href="' . $board['href'] . '"><img src="' . $settings['lang_images_url'] . '/new.gif" alt="' . $txt['new'] . '" /></a>' : '', '</td>
+				<td align="right">', comma_format($board['num_topics']), '</td>
+				<td align="right">', comma_format($board['num_posts']), '</td>
+			</tr>';
+	echo '
+		</table>';
 }
 
 // Show a linktree. This is that thing that shows "My Community | General Category | General Discussion"..
