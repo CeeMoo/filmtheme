@@ -205,6 +205,7 @@ function template_body_above()
 	       if (!empty($settings['film_slider'])) {flimslider();}
 	echo '
 	<div id="filmmenu">
+	 <a class="homecon" href="',$scripturl,'"></a>
 	 ' , template_menu() ,'
 	</div>';
 
