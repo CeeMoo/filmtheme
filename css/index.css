@@ -92,6 +92,8 @@ width: 143px;height:155px;display:block;}
 .timezaman #zaman1 {color:#ddd;float:left;}
 
 #filmmenu {background:#335795; height:35px; border-radius:6px;}
+#filmmenu  a.homecon {background:url(../images/theme/icon-home-32.png) #6381b2; width:32px;height:34.8px;position:absolute; margin:0px;border-radius:6px 0px 0px 6px;border-right:1px solid #5974a1;}
+#button_home {margin-left:28px;}
 .jqueryslidemenu{
 font: bold 12px Verdana;
 width: 100%;
@@ -113,6 +115,7 @@ float: left;
 #button_logout a {border-right:none;}
 #button_register a {border-right:none;}
 /*Top level menu link items style*/
+.jqueryslidemenu ul li a.active{color:#fafafa;font-weight:normal;}
 .jqueryslidemenu ul li a{
 display: block;
 color: white;
@@ -174,13 +177,13 @@ color: black;
 
 .downarrowclass{
 position: absolute;
-top: 12px;
+top: 14px;
 right: 7px;
 }
 
 .rightarrowclass{
 position: absolute;
-top: 6px;
+top: 7px;
 right: 5px;
 }
 
