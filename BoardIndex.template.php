@@ -16,7 +16,24 @@ function template_main()
 	
 	echo '
 	<div class="col3 floatright">';
+	
+	echo '
+	<table class="win1" style="width: 100%;">
+	 <tr class="info">
+		<td style="color:#fff; padding-left:5px;">
+		 En iyi filmler
+		</td>
+		<td colspan="3" class="win2">';
+	ssi_topTopics(1, 5);
+	
+	 echo '
+	    </td>
+	  </tr>
+	 </table>';
+	 
+	 
 	categori();
+	
 	echo '
 	</div>';
 	
@@ -34,7 +51,7 @@ function template_main()
     </div>
     <div id="tabscontent">
       <div class="tabpage" id="tabpage_1">';
-	 son();
+	 ssi_recentTopics();
     echo '
       </div>
 	  <div class="tabpage" id="tabpage_2">';
@@ -65,6 +82,8 @@ function template_info_center()
 
 }
 
+
+	
 function bilgi(){
 	global $context, $settings, $options, $txt, $scripturl, $modSettings;
 	// Show statistical style information...
@@ -173,6 +192,7 @@ function son(){
 					board (with an id, name, and link.), topic (the topic's id.), poster (with id, name, and link.),
 					subject, short_subject (shortened with...), time, link, and href. */
 			foreach ($context['latest_posts'] as $post)
+			
 				echo '
 					<tr><td width="40%"><strong>', $post['link'], '</strong></td><td width="20%"> ', $txt['by'], ' ', $post['poster']['link'], ' </td><td width="25%">(', $post['board']['link'], ')</td><td width="15%">
 					', $post['time'], '</td></tr>';
@@ -309,5 +329,218 @@ echo'
 
 	}
 }
+function ssi_topTopics($type = 'replies', $num_topics = 10, $output_method = 'echo'){
+	global $db_prefix, $txt, $scripturl, $user_info, $modSettings, $smcFunc, $context;
+
+	if ($modSettings['totalMessages'] > 100000)
+	{
+		// !!! Why don't we use {query(_wanna)_see_board}?
+		$request = $smcFunc['db_query']('', '
+			SELECT id_topic
+			FROM {db_prefix}topics
+			WHERE num_' . ($type != 'replies' ? 'views' : 'replies') . ' != 0' . ($modSettings['postmod_active'] ? '
+				AND approved = {int:is_approved}' : '') . '
+			ORDER BY num_' . ($type != 'replies' ? 'views' : 'replies') . ' DESC
+			LIMIT {int:limit}',
+			array(
+				'is_approved' => 1,
+				'limit' => $num_topics > 100 ? ($num_topics + ($num_topics / 2)) : 100,
+			)
+		);
+		$topic_ids = array();
+		while ($row = $smcFunc['db_fetch_assoc']($request))
+			$topic_ids[] = $row['id_topic'];
+		$smcFunc['db_free_result']($request);
+	}
+	else
+		$topic_ids = array();
+
+	$request = $smcFunc['db_query']('', '
+		SELECT m.subject, m.id_topic, t.num_views, t.num_replies
+		FROM {db_prefix}topics AS t
+			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
+			INNER JOIN {db_prefix}boards AS b ON (b.id_board = t.id_board)
+		WHERE {query_wanna_see_board}' . ($modSettings['postmod_active'] ? '
+			AND t.approved = {int:is_approved}' : '') . (!empty($topic_ids) ? '
+			AND t.id_topic IN ({array_int:topic_list})' : '') . (!empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0 ? '
+			AND b.id_board != {int:recycle_enable}' : '') . '
+		ORDER BY t.num_' . ($type != 'replies' ? 'views' : 'replies') . ' DESC
+		LIMIT {int:limit}',
+		array(
+			'topic_list' => $topic_ids,
+			'is_approved' => 1,
+			'recycle_enable' => $modSettings['recycle_board'],
+			'limit' => $num_topics,
+		)
+	);
+	$topics = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		censorText($row['subject']);
+
+		$topics[] = array(
+			'id' => $row['id_topic'],
+			'subject' => $row['subject'],
+			'num_replies' => $row['num_replies'],
+			'num_views' => $row['num_views'],
+			'href' => $scripturl . '?topic=' . $row['id_topic'] . '.0',
+			'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . '.0">' . $row['subject'] . '</a>',
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	if ($output_method != 'echo' || empty($topics))
+		return $topics;
+
+	echo '
+		<table class="ssi_table">
+			<tr>
+				<th align="left"></th>
+				<th align="left">', $txt['views'], '</th>
+				<th align="left">', $txt['replies'], '</th>
+			</tr>';
+	foreach ($topics as $topic)
+		echo '
+			<tr>
+				<td align="left">
+					', $topic['link'], '
+				</td>
+				<td align="right">', comma_format($topic['num_views']), '</td>
+				<td align="right">', comma_format($topic['num_replies']), '</td>
+			</tr>';
+	echo '
+		</table>';
+}
+
+// Recent topic list:   [board] Subject by Poster	Date
+function ssi_recentTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo'){
+	global $context, $settings, $scripturl, $txt, $db_prefix, $user_info;
+	global $modSettings, $smcFunc;
+
+	if ($exclude_boards === null && !empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0)
+		$exclude_boards = array($modSettings['recycle_board']);
+	else
+		$exclude_boards = empty($exclude_boards) ? array() : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
+
+	// Only some boards?.
+	if (is_array($include_boards) || (int) $include_boards === $include_boards)
+	{
+		$include_boards = is_array($include_boards) ? $include_boards : array($include_boards);
+	}
+	elseif ($include_boards != null)
+	{
+		$output_method = $include_boards;
+		$include_boards = array();
+	}
+
+	$stable_icons = array('xx', 'thumbup', 'thumbdown', 'exclamation', 'question', 'lamp', 'smiley', 'angry', 'cheesy', 'grin', 'sad', 'wink', 'moved', 'recycled', 'wireless');
+	$icon_sources = array();
+	foreach ($stable_icons as $icon)
+		$icon_sources[$icon] = 'images_url';
+
+	// Find all the posts in distinct topics.  Newer ones will have higher IDs.
+	$request = $smcFunc['db_query']('substring', '
+		SELECT
+			m.poster_time, ms.subject, m.id_topic, m.id_member, m.id_msg, b.id_board, b.name AS board_name, t.num_replies, t.num_views,
+			IFNULL(mem.real_name, m.poster_name) AS poster_name, ' . ($user_info['is_guest'] ? '1 AS is_read, 0 AS new_from' : '
+			IFNULL(lt.id_msg, IFNULL(lmr.id_msg, 0)) >= m.id_msg_modified AS is_read,
+			IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from') . ', SUBSTRING(m.body, 1, 384) AS body, m.smileys_enabled, m.icon
+		FROM {db_prefix}topics AS t
+			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_last_msg)
+			INNER JOIN {db_prefix}boards AS b ON (b.id_board = t.id_board)
+			INNER JOIN {db_prefix}messages AS ms ON (ms.id_msg = t.id_first_msg)
+			LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = m.id_member)' . (!$user_info['is_guest'] ? '
+			LEFT JOIN {db_prefix}log_topics AS lt ON (lt.id_topic = t.id_topic AND lt.id_member = {int:current_member})
+			LEFT JOIN {db_prefix}log_mark_read AS lmr ON (lmr.id_board = b.id_board AND lmr.id_member = {int:current_member})' : '') . '
+		WHERE 1=1
+			' . (empty($exclude_boards) ? '' : '
+			AND b.id_board NOT IN ({array_int:exclude_boards})') . '
+			' . (empty($include_boards) ? '' : '
+			AND b.id_board IN ({array_int:include_boards})') . '
+			AND {query_wanna_see_board}' . ($modSettings['postmod_active'] ? '
+			AND t.approved = {int:is_approved}
+			AND m.approved = {int:is_approved}' : '') . '
+		ORDER BY t.id_last_msg DESC
+		LIMIT ' . $num_recent,
+		array(
+			'current_member' => $user_info['id'],
+			'include_boards' => empty($include_boards) ? '' : $include_boards,
+			'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
+			'min_message_id' => $modSettings['maxMsgID'] - 35 * min($num_recent, 5),
+			'is_approved' => 1,
+		)
+	);
+	$posts = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		$row['body'] = strip_tags(strtr(parse_bbc($row['body'], $row['smileys_enabled'], $row['id_msg']), array('<br />' => '&#10;')));
+		if ($smcFunc['strlen']($row['body']) > 128)
+			$row['body'] = $smcFunc['substr']($row['body'], 0, 128) . '...';
+
+		// Censor the subject.
+		censorText($row['subject']);
+		censorText($row['body']);
+
+		if (empty($modSettings['messageIconChecks_disable']) && !isset($icon_sources[$row['icon']]))
+			$icon_sources[$row['icon']] = file_exists($settings['theme_dir'] . '/images/post/' . $row['icon'] . '.gif') ? 'images_url' : 'default_images_url';
+
+		// Build the array.
+		$posts[] = array(
+			'board' => array(
+				'id' => $row['id_board'],
+				'name' => $row['board_name'],
+				'href' => $scripturl . '?board=' . $row['id_board'] . '.0',
+				'link' => '<a href="' . $scripturl . '?board=' . $row['id_board'] . '.0">' . $row['board_name'] . '</a>'
+			),
+			'topic' => $row['id_topic'],
+			'poster' => array(
+				'id' => $row['id_member'],
+				'name' => $row['poster_name'],
+				'href' => empty($row['id_member']) ? '' : $scripturl . '?action=profile;u=' . $row['id_member'],
+				'link' => empty($row['id_member']) ? $row['poster_name'] : '<a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['poster_name'] . '</a>'
+			),
+			'subject' => $row['subject'],
+			'replies' => $row['num_replies'],
+			'views' => $row['num_views'],
+			'short_subject' => shorten_subject($row['subject'], 25),
+			'preview' => $row['body'],
+			'time' => timeformat($row['poster_time']),
+			'timestamp' => forum_time(true, $row['poster_time']),
+			'href' => $scripturl . '?topic=' . $row['id_topic'] . '.msg' . $row['id_msg'] . ';topicseen#new',
+			'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . '.msg' . $row['id_msg'] . '#new" rel="nofollow">' . $row['subject'] . '</a>',
+			// Retained for compatibility - is technically incorrect!
+			'new' => !empty($row['is_read']),
+			'is_new' => empty($row['is_read']),
+			'new_from' => $row['new_from'],
+			'icon' => '<img src="' . $settings[$icon_sources[$row['icon']]] . '/post/' . $row['icon'] . '.gif" align="middle" alt="' . $row['icon'] . '" />',
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	// Just return it.
+	if ($output_method != 'echo' || empty($posts))
+		return $posts;
+
+	echo '
+		<table border="0" class="ssi_table">';
+	foreach ($posts as $post)
+		echo '
+			<tr>
+				<td align="right" valign="top" nowrap="nowrap">
+					[', $post['board']['link'], ']
+				</td>
+				<td valign="top">
+					<a href="', $post['href'], '">', $post['subject'], '</a>
+					', $txt['by'], ' ', $post['poster']['link'], '
+					', !$post['is_new'] ? '' : '<a href="' . $scripturl . '?topic=' . $post['topic'] . '.msg' . $post['new_from'] . ';topicseen#new" rel="nofollow"><img src="' . $settings['lang_images_url'] . '/new.gif" alt="' . $txt['new'] . '" /></a>', '
+				</td>
+				<td align="right" nowrap="nowrap">
+					', $post['time'], '
+				</td>
+			</tr>';
+	echo '
+		</table>';
+}
+
 ?>
 
