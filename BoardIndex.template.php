@@ -64,6 +64,7 @@ function template_info_center()
 	global $context, $settings, $options, $txt, $scripturl, $modSettings;
 
 }
+
 function bilgi(){
 	global $context, $settings, $options, $txt, $scripturl, $modSettings;
 	// Show statistical style information...
@@ -89,7 +90,6 @@ function bilgi(){
 
 
 }
-
 function online(){
     global $context, $settings, $options, $txt, $scripturl, $modSettings;
 	// "Users online" - in order of activity.
@@ -158,7 +158,8 @@ function online(){
 				</span>
 			</p>';
 	}
-}function son(){
+}
+function son(){
     global $context, $settings, $options, $txt, $scripturl, $modSettings;
 
 		// This is the "Recent Posts" bar.
@@ -228,6 +229,11 @@ while ($row = $smcFunc['db_fetch_assoc']($request))
   );
 $smcFunc['db_free_result']($request);
     
+	echo '
+	<div id="konuis">
+	 ' , $txt['latest_post'] ,'
+	</div>';
+	
 	echo '
 	<div id="sonfilmayar">';
 	
