@@ -81,7 +81,7 @@ width: 143px;height:155px;display:block;}
 .catelistele  ul li ul li a{border-bottom:1px solid #E4D9C1;color:#45433F;}
 
 .win1{background:#335795;margin-bottom:5px;border-radius:5px;}
-.win1 span {background: #2D3035;border-radius: 6px;padding: 3px;color: #fafafa;float: left;min-width: 66px;}
+.win1 span {background: #2D3035;border-radius: 6px;padding: 3px;color: #fafafa;float: left;}
 .win1 a:link, .win1 a:visited{color:#fff; margin:0 3px;}
 .win2 a:link, .win2 a:visited{color:#45433f;}
 .win2{background:#ECE4D3;border-radius:5px;margin:5px;padding:5px;}

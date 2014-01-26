@@ -615,7 +615,7 @@ $(document).ready(function () {
  global $smcFunc, $scripturl, $settings, $options, $txt ,$context, $modSettings;
 		
 
-$boards=array(3);
+$boards=array(1,2,3,4,5);
 
 $request = $smcFunc['db_query']('', '
   SELECT t.id_topic, m.subject, m.body
