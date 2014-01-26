@@ -1,6 +1,7 @@
 #tabContainer {
 	padding:0px;
 }
+#tabscontent p {padding:0;margin:0;}
 
 #tabs{
 	overflow:hidden;
