@@ -23,32 +23,25 @@ $txt['admin_youtube_one'] = 'YouTube Sayfan?z?n url si?';
 $txt['admin_rss_one'] = 'RSS Sayfan?z?n url si?';
 
 
-$txt['filmboard'] ='anasayfa resim ';
-$txt['filmboard_desc'] ='anasayfa açýk/kapalý ';
-//slider
-$txt['filmslider'] ='üst slayt ';
-$txt['filmslider_desc'] ='üst slayt açýk/kapalý ';
-$txt['bolum1'] ='Board id Giriniz';
-$txt['bolum_desc'] ='<font size="3" color="red">DÝKKAT:</font>boþ býrakmanýz durumunda hata alýrsýnýz örnek 1,2,3';
 //box
 $txt['teknobox0'] = 'Alt Kutu Aktif Et';
-$txt['teknobox0b'] = 'Baþlýk Yazýn';
+$txt['teknobox0b'] = 'Baï¿½lï¿½k Yazï¿½n';
 $txt['teknobox0i'] = 'Resim Url Girin';
-$txt['teknobox0t'] = '2.Baþlýk';
-$txt['teknobox0d'] = 'html li taglarýný kullanýn 1-2-3 diye sýralar veya html kullanabiliriniz';
+$txt['teknobox0t'] = '2.Baï¿½lï¿½k';
+$txt['teknobox0d'] = 'html li taglarï¿½nï¿½ kullanï¿½n 1-2-3 diye sï¿½ralar veya html kullanabiliriniz';
 $txt['teknobox1'] = '1.Alt Kutu Aktif Et';
-$txt['teknobox1b'] = 'Baþlýk Yazýn';
+$txt['teknobox1b'] = 'Baï¿½lï¿½k Yazï¿½n';
 $txt['teknobox1i'] = 'Resim Url Girin';
-$txt['teknobox1t'] = '2.Bölük';
+$txt['teknobox1t'] = '2.Bï¿½lï¿½k';
 $txt['teknobox1d'] = 'html li taglar?n? kullan?n 1-2-3 diye s?ralar veya html kullanabiliriniz';
 $txt['teknobox2'] = '2.Alt Kutu Aktif Et';
-$txt['teknobox2b'] = 'Baþlýk Yazan';
+$txt['teknobox2b'] = 'Baï¿½lï¿½k Yazan';
 $txt['teknobox2i'] = 'Resim Url Girin';
-$txt['teknobox2t'] = '2.Baþlýk';
+$txt['teknobox2t'] = '2.Baï¿½lï¿½k';
 $txt['teknobox2d'] = 'html li taglar?n? kullan?n 1-2-3 diye s?ralar veya html kullanabiliriniz';
 $txt['teknobox3'] = '3.Alt Kutu Aktif Et';
-$txt['teknobox3b'] = 'Baþlýk Yazan';
+$txt['teknobox3b'] = 'Baï¿½lï¿½k Yazan';
 $txt['teknobox3i'] = 'Resim Url Girin';
-$txt['teknobox3t'] = '2.Baþlýk';
-$txt['teknobox3d'] = 'html li taglar?n? kullan?n 1-2-3 diye sýralar veya html kullanabiliriniz';
+$txt['teknobox3t'] = '2.Baï¿½lï¿½k';
+$txt['teknobox3d'] = 'html li taglar?n? kullan?n 1-2-3 diye sï¿½ralar veya html kullanabiliriniz';
 ?>
