@@ -217,32 +217,10 @@ function template_body_above()
 					<input type="hidden" name="advanced" value="0" /></form></div>';
 					
     echo '
-	<div class="timezaman">
-	  <span id="zaman1">',timeformat(time(),'%d %B %Y'), '</span><br />
-	   ', $txt['saat'], ' 
-	  <span id="zaman2">', $txt['loading'], '</span>	
-					
-    <script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
-function refrClock()
-{
-var d=new Date();
-var s=d.getSeconds();
-var m=d.getMinutes();
-var h=d.getHours();
-var am_pm;
-if (s<10) {s="0" + s}
-if (m<10) {m="0" + m}
-if (h>24) {h="24"}
-else {am_pm=""}
-if (h<10) {h="0" + h}
-document.getElementById("zaman2").innerHTML=h + ":" + m + ":" + s + am_pm;
-setTimeout("refrClock()",1000);
-}
-refrClock();
-	// ]]></script></div>';
+	<div class="timezaman">', $context['current_time'];
 	
 	
-      echo'
+      echo'</div>
    <div class="teknosocial">
           
        <ul class="tekno_social">';
