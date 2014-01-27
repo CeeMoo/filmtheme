@@ -1,4 +1,4 @@
-All Themes are Copyright (c) 2013, snrj. (http://teknoromi.com/)
+All Themes are Copyright (c) 2013, smfdestek. (http://smfdestek.com/)
 
 All rights reserved.
 
@@ -20,12 +20,12 @@ modification, are permitted provided that the following conditions are met:
    in part or in total.
 6. You are required to maintain link and copyright somewhere in theme visible
    in theme index page / theme output unless authorized by snrj. from 
-   http://teknoromi.com/ to remove it.
+   http://smfdestek.com/ to remove it.
 7. You are not allowed use the templates / theme /product for websites or individuals
    that participate in warez, hacking, cracking, malicious computer crime or fraud, 
    or any other material or activity that is illegal.
 
-THIS SOFTWARE IS PROVIDED BY snrj. ''AS IS'' AND ANY
+THIS SOFTWARE IS PROVIDED BY smfdestek. ''AS IS'' AND ANY
 EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 DISCLAIMED. IN NO EVENT SHALL snrj. BE LIABLE FOR ANY
