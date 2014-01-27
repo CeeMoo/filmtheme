@@ -164,12 +164,7 @@ function template_settings()
 			'description' => $txt['header_logo_url_desc'],
 			'type' => 'text',
 		),
-		array(
-			'id' => 'site_slogan',
-			'label' => $txt['site_slogan'],
-			'description' => $txt['site_slogan_desc'],
-			'type' => 'text',
-		),
+	
 		array(
 			'id' => 'smiley_sets_default',
 			'label' => $txt['smileys_default_set_for_theme'],
@@ -184,30 +179,7 @@ function template_settings()
 			'size' => 8,
 		),
 	     '',
-	    array(
-	        'id' => 'film_board',
-	        'label' => $txt['filmboard'],
-		    'description' => $txt['filmboard_desc'],
-		),
-			
-	    array(
-	       'id' => 'film_board1',
-	       'label' => $txt['bolum1'],
-	       'description' => $txt['bolum_desc'],
-	       'type' => 'text',
-            ),
-	    array(
-	        'id' => 'film_slider',
-	        'label' => $txt['filmslider'],
-		    'description' => $txt['filmslider_desc'],
-		),
-        array(
-	        'id' => 'bolum',
-	        'label' => $txt['bolum1'],
-	        'description' => $txt['bolum_desc'],
-	        'type' => 'text',
-        ),
-
+      
 		 '',
 	        array(
 	        'id' => 'active_teknobox0',
