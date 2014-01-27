@@ -22,13 +22,6 @@ $txt['admin_facebook_one'] = 'Url of your Facebook page?';
 $txt['admin_youtube_one'] = 'Url of your YouTube page?';
 $txt['admin_rss_one'] = 'Url of your RSS feed?';
 
-$txt['filmboard'] ='home image ';
-$txt['filmboard_desc'] ='home false/true ';
-//slider
-$txt['filmslider'] ='header slider ';
-$txt['filmslider_desc'] ='header slider false/true ';
-$txt['bolum1'] ='Board id';
-$txt['bolum_desc'] ='<font size="3" color="red">Warning:</font>do not leave blank, sample 1,2,3 ';
 // box
 $txt['teknobox0'] = 'Footer Box Enabled';
 $txt['teknobox0b'] = 'Type a title';
