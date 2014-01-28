@@ -184,24 +184,20 @@ function template_settings()
 	        array(
 	        'id' => 'active_teknobox0',
 	        'label' => $txt['teknobox0'],
-		'description' => $txt['site_link_desc'],
 		),
 	        array(
 	       'id' => 'url_teknobox0b',
 	       'label' => $txt['teknobox0b'],
-	       'description' => $txt['site_link_desc'],
 	       'type' => 'text',
                ),
                array(
 	      'id' => 'url_teknobox0i',
 	      'label' => $txt['teknobox0i'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
                ),
                array(
 	      'id' => 'url_teknobox0t',
 	      'label' => $txt['teknobox0t'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
                 ),
              array(
@@ -213,24 +209,20 @@ function template_settings()
 	    array(
 	    'id' => 'active_teknobox1',
 	    'label' => $txt['teknobox1'],
-		'description' => $txt['site_link_desc'],
 		),
 	    array(
 	    'id' => 'url_teknobox1b',
 	    'label' => $txt['teknobox1b'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
 	    'id' => 'url_teknobox1i',
 	    'label' => $txt['teknobox1i'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
 	    'id' => 'url_teknobox1t',
 	    'label' => $txt['teknobox1t'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
@@ -242,24 +234,20 @@ function template_settings()
 	    array(
 	    'id' => 'active_teknobox2',
 	    'label' => $txt['teknobox2'],
-		'description' => $txt['site_link_desc'],
 		),
 	    array(
 	    'id' => 'url_teknobox2b',
 	    'label' => $txt['teknobox2b'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
 	    'id' => 'url_teknobox2i',
 	    'label' => $txt['teknobox2i'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
 	    'id' => 'url_teknobox2t',
 	    'label' => $txt['teknobox2t'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
@@ -271,24 +259,20 @@ function template_settings()
 	    array(
 	    'id' => 'active_teknobox3',
 	    'label' => $txt['teknobox3'],
-		'description' => $txt['site_link_desc'],
 		),
 	    array(
 	    'id' => 'url_teknobox3b',
 	    'label' => $txt['teknobox3b'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
 	    'id' => 'url_teknobox3i',
 	    'label' => $txt['teknobox3i'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
 	    'id' => 'url_teknobox3t',
 	    'label' => $txt['teknobox3t'],
-		'description' => $txt['site_link_desc'],
 		'type' => 'text',
         ),
         array(
@@ -369,14 +353,7 @@ function template_settings()
 			'id' => 'number_recent_posts',
 			'label' => $txt['number_recent_posts'],
 			'description' => $txt['number_recent_posts_desc'],
-			'options' => array(
-                5 => $txt['per_page_default'],
-				5 => 5,
-				10 => 10,
-				20 => 20,
-                        ),
-            'type' => 'number',
-
+			'type' => 'number',
 		),
 		array(
 			'id' => 'show_stats_index',
