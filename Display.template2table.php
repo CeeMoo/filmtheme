@@ -42,6 +42,7 @@ function template_main()
 					</h3>
 				</div>
 				<div class="windowbg">
+					<span class="topslice"><span></span></span>
 					<div class="content" id="poll_options">
 						<h4 id="pollquestion">
 							', $context['poll']['question'], '
@@ -111,6 +112,7 @@ function template_main()
 
 		echo '
 					</div>
+					<span class="botslice"><span></span></span>
 				</div>
 			</div>
 			<div id="pollmoderation">';
@@ -140,6 +142,7 @@ function template_main()
 					<h3 class="titlebg headerpadding">', $txt['calendar_linked_events'], '</h3>
 				</div>
 				<div class="windowbg">
+					<span class="topslice"><span></span></span>
 					<div class="content">
 						<ul class="reset">';
 
@@ -152,6 +155,7 @@ function template_main()
 		echo '
 						</ul>
 					</div>
+					<span class="botslice"><span></span></span>
 				</div>
 			</div>';
 	}
@@ -236,33 +240,48 @@ function template_main()
 				<a id="msg', $message['id'], '"></a>', $message['first_new'] ? '<a id="new"></a>' : '';
 
 		echo '
-		<div class="post_wrapper">';
+					<span class="topslice"><span></span></span>
+					<div class="post_wrapper">';
 
 // Show information about the poster of this message.
 		echo '
-		<div class="poster">';
+						<div class="poster">
+						<table  width="100%;" cellspacing="0" cellpadding="0">
+						 <tbody>
+						  <tr>
+						   <td width="30%;" align="left">';
+						   
+						   
+						   echo '
+						     <table cellspacing="0" cellpadding="0">
+							 <tbody>
+							  <tr>
+							   <td align="left">';
 						
 			// Show avatars, images, etc.?
 			if (!empty($settings['show_user_images']) && empty($options['show_no_avatars']) && !empty($message['member']['avatar']['image']))
 				echo '
 								<li class="avatar">
 									<a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
-										 <img src="' . $message['member']['avatar']['href'] . '"  alt="" />
+										 <img style="height:145px;width:130px;" src="' . $message['member']['avatar']['href'] . '"  alt="" />
 									</a>
 								</li>';
 								
 			else {
 				echo '
-				<li class="avatar">
+								<li class="avatar">
                   <a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
-                    <img src="'.$settings['images_url'].'/avatar.png" alt="" />
+                    <img style="height:145px;width:130px;" src="'.$settings['images_url'].'/avatar.png" alt="" />
                   </a>
-                </li>';
-				
-			}
+                </li>
+				</td>';
 					
 							echo '
-							<div class="floatright">
+                            <td align="left">
+                            <table align="left" cellspacing="0" cellpadding="0">
+                             <tbody>
+      						  <tr>
+							   <td align="left">
 							    <h4>';
  
 		// Show online and offline buttons?
@@ -273,65 +292,20 @@ function template_main()
 		// Show a link to the member's profile.
 		echo '
 								', $message['member']['link'], '
-							</h4><br />';
+							</h4>
+							</td>
+						   </tr>
+						  </tbody>
+						 </table>';
 						 
-						echo '
+						echo '	
+							<td align="left" style="padding-left:5px">	
 							<ul class="reset smalltext" id="msg_', $message['id'], '_extra_info">';
+			}
          // Show the post group if and only if they have no other group or the option is on, and they are in a post group.
 			if ((empty($settings['hide_post_group']) || $message['member']['group'] == '') && $message['member']['post_group'] != '')
 				echo '
-								<li class="stars">', $message['member']['group_stars'], '</li><br />';
-							
-			// This shows the popular messaging icons.
-			if ($message['member']['has_messenger'] && $message['member']['can_view_profile'])
-				echo '
-								<li class="im_icons">
-									<ul>
-										', !empty($message['member']['icq']['link']) ? '<li>' . $message['member']['icq']['link'] . '</li>' : '', '
-										', !empty($message['member']['msn']['link']) ? '<li>' . $message['member']['msn']['link'] . '</li>' : '', '
-										', !empty($message['member']['aim']['link']) ? '<li>' . $message['member']['aim']['link'] . '</li>' : '', '
-										', !empty($message['member']['yim']['link']) ? '<li>' . $message['member']['yim']['link'] . '</li>' : '', '
-									</ul>
-								</li><br />';
-
-			// Show the profile, website, email address, and personal message buttons.
-			if ($settings['show_profile_buttons'])
-			{
-				echo '
-								<li class="profile">
-									<ul>';
-				// Don't show the profile button if you're not allowed to view the profile.
-				if ($message['member']['can_view_profile'])
-					echo '
-										<li><a href="', $message['member']['href'], '">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/icons/profile_sm.gif" alt="' . $txt['view_profile'] . '" title="' . $txt['view_profile'] . '" />' : $txt['view_profile']), '</a></li>';
-
-				// Don't show an icon if they haven't specified a website.
-				if ($message['member']['website']['url'] != '' && !isset($context['disabled_fields']['website']))
-					echo '
-										<li><a href="', $message['member']['website']['url'], '" title="' . $message['member']['website']['title'] . '" target="_blank" class="new_win">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/www_sm.gif" alt="' . $message['member']['website']['title'] . '" />' : $txt['www']), '</a></li>';
-
-				// Don't show the email address if they want it hidden.
-				if (in_array($message['member']['show_email'], array('yes', 'yes_permission_override', 'no_through_forum')))
-					echo '
-										<li><a href="', $scripturl, '?action=emailuser;sa=email;msg=', $message['id'], '" rel="nofollow">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/email_sm.gif" alt="' . $txt['email'] . '" title="' . $txt['email'] . '" />' : $txt['email']), '</a></li>';
-
-				// Since we know this person isn't a guest, you *can* message them.
-				if ($context['can_send_pm'])
-					echo '
-										<li><a href="', $scripturl, '?action=pm;sa=send;u=', $message['member']['id'], '" title="', $message['member']['online']['is_online'] ? $txt['pm_online'] : $txt['pm_offline'], '">', $settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/im_' . ($message['member']['online']['is_online'] ? 'on' : 'off') . '.gif" alt="' . ($message['member']['online']['is_online'] ? $txt['pm_online'] : $txt['pm_offline']) . '" />' : ($message['member']['online']['is_online'] ? $txt['pm_online'] : $txt['pm_offline']), '</a></li>';
-
-				echo '
-									</ul>
-								</li>';
-			}
-			
-			
-			
-			echo '
-			</div>';
-			
-			echo '
-			<div class="floatleft">';
+								<li class="stars">', $message['member']['group_stars'], '</li>';
 			
 			echo '
 								<li class="postgroup">', $message['member']['post_group'], '</li>';
@@ -344,8 +318,21 @@ function template_main()
 		// Show the member's primary group (like 'Administrator') if they have one.
 		if (!empty($message['member']['group']))
 			echo '
-								<li class="membergroup">', $message['member']['group'], '</li>';
+								<li class="membergroup">', $message['member']['group'], '</li>
+							</td>';
 								
+			echo '
+			</td>
+		   </tr>
+		   </tbody>
+		  </table>';
+		  
+		  echo '
+		  <td width="55%" valign="top" align="center"></td>';
+		  
+		  
+		  echo '
+		  <td width="12%" valign="top" align="left">';
 		  
 		// Don't show these things for guests.
 		if (!$message['member']['is_guest'])
@@ -407,6 +394,49 @@ function template_main()
 								</li>';
 			}
 
+			// This shows the popular messaging icons.
+			if ($message['member']['has_messenger'] && $message['member']['can_view_profile'])
+				echo '
+								<li class="im_icons">
+									<ul>
+										', !empty($message['member']['icq']['link']) ? '<li>' . $message['member']['icq']['link'] . '</li>' : '', '
+										', !empty($message['member']['msn']['link']) ? '<li>' . $message['member']['msn']['link'] . '</li>' : '', '
+										', !empty($message['member']['aim']['link']) ? '<li>' . $message['member']['aim']['link'] . '</li>' : '', '
+										', !empty($message['member']['yim']['link']) ? '<li>' . $message['member']['yim']['link'] . '</li>' : '', '
+									</ul>
+								</li>';
+
+			// Show the profile, website, email address, and personal message buttons.
+			if ($settings['show_profile_buttons'])
+			{
+				echo '
+								<li class="profile">
+									<ul>';
+				// Don't show the profile button if you're not allowed to view the profile.
+				if ($message['member']['can_view_profile'])
+					echo '
+										<li><a href="', $message['member']['href'], '">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/icons/profile_sm.gif" alt="' . $txt['view_profile'] . '" title="' . $txt['view_profile'] . '" />' : $txt['view_profile']), '</a></li>';
+
+				// Don't show an icon if they haven't specified a website.
+				if ($message['member']['website']['url'] != '' && !isset($context['disabled_fields']['website']))
+					echo '
+										<li><a href="', $message['member']['website']['url'], '" title="' . $message['member']['website']['title'] . '" target="_blank" class="new_win">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/www_sm.gif" alt="' . $message['member']['website']['title'] . '" />' : $txt['www']), '</a></li>';
+
+				// Don't show the email address if they want it hidden.
+				if (in_array($message['member']['show_email'], array('yes', 'yes_permission_override', 'no_through_forum')))
+					echo '
+										<li><a href="', $scripturl, '?action=emailuser;sa=email;msg=', $message['id'], '" rel="nofollow">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/email_sm.gif" alt="' . $txt['email'] . '" title="' . $txt['email'] . '" />' : $txt['email']), '</a></li>';
+
+				// Since we know this person isn't a guest, you *can* message them.
+				if ($context['can_send_pm'])
+					echo '
+										<li><a href="', $scripturl, '?action=pm;sa=send;u=', $message['member']['id'], '" title="', $message['member']['online']['is_online'] ? $txt['pm_online'] : $txt['pm_offline'], '">', $settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/im_' . ($message['member']['online']['is_online'] ? 'on' : 'off') . '.gif" alt="' . ($message['member']['online']['is_online'] ? $txt['pm_online'] : $txt['pm_offline']) . '" />' : ($message['member']['online']['is_online'] ? $txt['pm_online'] : $txt['pm_offline']), '</a></li>';
+
+				echo '
+									</ul>
+								</li>';
+			}
+
 			// Any custom fields for standard placement?
 			if (!empty($message['member']['custom_fields']))
 			{
@@ -425,18 +455,15 @@ function template_main()
 		elseif (!empty($message['member']['email']) && in_array($message['member']['show_email'], array('yes', 'yes_permission_override', 'no_through_forum')))
 			echo '
 								<li class="email"><a href="', $scripturl, '?action=emailuser;sa=email;msg=', $message['id'], '" rel="nofollow">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/email_sm.gif" alt="' . $txt['email'] . '" title="' . $txt['email'] . '" />' : $txt['email']), '</a></li>';
-								
-						
-			echo '
-			</div>';
 
 		// Done with the information about the poster... on to the post itself.
 		echo '
 			 </ul>
+			</td>
+		   </tr>
+		  </tbody>
+		 </table>
 		</div>';
-		
-			echo '
-		<br class="clear" />';
             
             if ($message['can_approve']) 
             
@@ -606,7 +633,7 @@ function template_main()
 						<div class="moderatorbar">
 							<div class="smalltext modified" id="modified_', $message['id'], '">';
 
-		// Show "ï¿½ Last Edit: Time by Person ï¿½" if this post was edited.
+		// Show "? Last Edit: Time by Person ?" if this post was edited.
 		if ($settings['show_modify'] && !empty($message['modified']['name']))
 			echo '
 								&#171; <em>', $txt['last_edit'], ': ', $message['modified']['time'], ' ', $txt['by'], ' ', $message['modified']['name'], '</em> &#187;';
@@ -679,28 +706,31 @@ function template_main()
 		echo '
 						</div>
 					</div>
+					<span class="botslice"><span></span></span>
 				
 				<hr class="post_separator" />';
 		
 			echo'
 			<br class="clear" />';
 		}
-		//yorum kÄ±smÄ±
+		//yorum kýsmý
 		else
 		{
 			echo '
-				<div class="dashboard-comment">';
+				<div class="', $message['approved'] ? ($message['alternate'] == 0 ? 'windowbg' : 'windowbg2') : 'approvebg', '">
+					<span class="topslice"><span></span></span>
+						<div class="content">
+							<div style="height: 60px;">';
 			
 			// Show avatars, images, etc.?
 			if (!empty($settings['show_user_images']) && empty($options['show_no_avatars']) && !empty($message['member']['avatar']['image']))
 				echo '
-				<a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
-					<img src="', $message['member']['avatar']['url'], '" alt="" />
-				</a>';
-						
-            echo '
-            <div class="dc-content">';
-			
+								<div style="float: left; padding: 0 5px;">
+									<a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
+										<img src="', $message['member']['avatar']['url'], '" style="vertical-align: middle; width: 40px; height: 40px;" alt="" />
+									</a>
+								</div>
+							';
 			// If this is the first post, (#0) just say when it was posted - otherwise give the reply #.
 			if ($message['can_approve'] || $context['can_reply'] || $message['can_modify'] || $message['can_remove'] || $context['can_split'] || $context['can_restore_msg'])
 				echo '
@@ -751,10 +781,15 @@ function template_main()
 									</ul>';
 								
 			echo'
-			<div class="smalltext">
-				<strong>'.$message['member']['link'].'</strong>
-					', $txt['on'], ': ', $message['time'], ' <a id="msg', $message['id'], '"></a>', $message['first_new'] ? '<a id="new"></a>' : '' ,'
-			</div>
+						
+			
+								
+								
+									<div class="smalltext">
+										<strong>'.$message['member']['link'].'</strong>
+										  ', $txt['on'], ': ', $message['time'], ' <a id="msg', $message['id'], '"></a>', $message['first_new'] ? '<a id="new"></a>' : '' ,'
+									 </div>
+								</div>
 									 ',$message['body'];
 			// Assuming there are attachments...
 			if (!empty($message['attachment']))
@@ -806,6 +841,7 @@ function template_main()
 			
 			echo'
 						</div>
+					<span class="botslice"><span></span></span>
 				</div>';
 		}
 	}
@@ -910,6 +946,7 @@ function template_main()
 							</div>
 						</form>
 					</div>
+					<span class="lowerframe"><span></span></span>
 				</div>
 			</div>';
 	}
