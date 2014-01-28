@@ -580,7 +580,7 @@ div#upper_section div.news form{float:right;}
 #usergo li{float:right;line-height:10px;}
 .tekno a{color:#8B9CB7;}
 #usergo li h2{color:white;text-shadow:1px 1px 4px #0466F9;}
-#teknouser img.avatar{border:1px solid #aaa;height:30px;width: 25px;}
+#teknouser img.avatar{height:30px;width: 25px;margin-left:5px;}
 .navigate_section{padding:0em;margin:0 0 0 0;}
 .navigate_section ul{display:block;margin:0;font-size:0.9em;padding:0;overflow:hidden;list-style:none;clear:both;width:100%;}
 .navigate_section ul li {
