@@ -186,7 +186,7 @@ function son(){
 		elseif (!empty($context['latest_posts']))
 		{
 			echo '
-				<table id="ic_recentposts" class="middletext" width="100%" ><tbody>';
+				<table id="ic_recentposts" class="middletext" width="100%"><tbody>';
 
 			/* Each post in latest_posts has:
 					board (with an id, name, and link.), topic (the topic's id.), poster (with id, name, and link.),
@@ -257,8 +257,6 @@ function categori(){
 	foreach ($context['categories'] as $category)
 	{
 
-		echo '
-			<table class="content" id="category_', $category['id'], '_boards">';
 			/* Each board in each category's boards has:
 			new (is it new?), id, name, description, moderators (see below), link_moderators (just a list.),
 			children (see below.), link_children (easier to use.), children_new (are they new?),
@@ -266,7 +264,7 @@ function categori(){
 			foreach ($category['boards'] as $board)
 			{
 				echo '
-				<table id="board_', $board['id'], '" class="win1" style="width: 100%;">
+				<table id="board_', $board['id'], '" class="win1" style="width:100%;">
 					<tr class="info">
 						<td style="width:64%;"><a class="subject" href="', $board['href'], '" name="b', $board['id'], '">', $board['name'], '</a></td>';
 
