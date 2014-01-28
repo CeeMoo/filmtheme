@@ -14,6 +14,9 @@ function template_main()
 {
 	global $context, $settings, $options, $txt, $scripturl, $modSettings;
 
+	echo '
+	<div class="birazayar">';
+	
 	// Let them know, if their report was a success!
 	if ($context['report_sent'])
 	{
@@ -227,6 +230,10 @@ function template_main()
 			$ignoredMsgs[] = $message['id'];
 		}
 
+		//Lucas-ruroken, Good Idea :P
+		global $topicinfo;
+		if($topicinfo['id_first_msg'] == $message['id'])
+		{
 		// Show the message anchor and a "new" anchor if this message is new.
 		if ($message['id'] != $context['first_message'])
 			echo '
@@ -657,6 +664,141 @@ function template_main()
 					<span class="botslice"><span></span></span>
 				
 				<hr class="post_separator" />';
+		
+			echo'
+			<br class="clear" />';
+		}
+		//yorum kısmı
+		else
+		{
+			echo '
+				<div class="', $message['approved'] ? ($message['alternate'] == 0 ? 'windowbg' : 'windowbg2') : 'approvebg', '">
+					<span class="topslice"><span></span></span>
+						<div class="content">
+							<div style="height: 60px;">';
+			
+			// Show avatars, images, etc.?
+			if (!empty($settings['show_user_images']) && empty($options['show_no_avatars']) && !empty($message['member']['avatar']['image']))
+				echo '
+								<div style="float: left; padding: 0 5px;">
+									<a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
+										<img src="', $message['member']['avatar']['url'], '" style="vertical-align: middle; width: 40px; height: 40px;" alt="" />
+									</a>
+								</div>
+							';
+			// If this is the first post, (#0) just say when it was posted - otherwise give the reply #.
+			if ($message['can_approve'] || $context['can_reply'] || $message['can_modify'] || $message['can_remove'] || $context['can_split'] || $context['can_restore_msg'])
+				echo '
+									<ul class="reset smalltext quickbuttons">';
+
+			// Maybe we can approve it, maybe we should?
+			if ($message['can_approve'])
+				echo '
+										<li class="approve_button"><a href="', $scripturl, '?action=moderate;area=postmod;sa=approve;topic=', $context['current_topic'], '.', $context['start'], ';msg=', $message['id'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['approve'], '</a></li>';
+
+			// Can they reply? Have they turned on quick reply?
+			if ($context['can_reply'] && !empty($options['display_quick_reply']))
+				echo '
+										<li class="quote_button"><a href="', $scripturl, '?action=post;quote=', $message['id'], ';topic=', $context['current_topic'], '.', $context['start'], ';num_replies=', $context['num_replies'], '" onclick="return oQuickReply.quote(', $message['id'], ');">', $txt['quote'], '</a></li>';
+
+			// So... quick reply is off, but they *can* reply?
+			elseif ($context['can_reply'])
+				echo '
+										<li class="quote_button"><a href="', $scripturl, '?action=post;quote=', $message['id'], ';topic=', $context['current_topic'], '.', $context['start'], ';num_replies=', $context['num_replies'], '">', $txt['quote'], '</a></li>';
+
+			// Can the user modify the contents of this post?
+			if ($message['can_modify'])
+				echo '
+										<li class="modify_button"><a href="', $scripturl, '?action=post;msg=', $message['id'], ';topic=', $context['current_topic'], '.', $context['start'], '">', $txt['modify'], '</a></li>';
+
+			// How about... even... remove it entirely?!
+			if ($message['can_remove'])
+				echo '
+										<li class="remove_button"><a href="', $scripturl, '?action=deletemsg;topic=', $context['current_topic'], '.', $context['start'], ';msg=', $message['id'], ';', $context['session_var'], '=', $context['session_id'], '" onclick="return confirm(\'', $txt['remove_message'], '?\');">', $txt['remove'], '</a></li>';
+
+			// What about splitting it off the rest of the topic?
+			if ($context['can_split'] && !empty($context['num_replies']))
+				echo '
+										<li class="split_button"><a href="', $scripturl, '?action=splittopics;topic=', $context['current_topic'], '.0;at=', $message['id'], '">', $txt['split'], '</a></li>';
+
+			// Can we restore topics?
+			if ($context['can_restore_msg'])
+				echo '
+										<li class="restore_button"><a href="', $scripturl, '?action=restoretopic;msgs=', $message['id'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['restore_message'], '</a></li>';
+
+			// Show a checkbox for quick moderation?
+			if (!empty($options['display_quick_mod']) && $options['display_quick_mod'] == 1 && $message['can_remove'])
+				echo '
+										<li class="inline_mod_check" style="display: none;" id="in_topic_mod_check_', $message['id'], '"></li>';
+
+			if ($message['can_approve'] || $context['can_reply'] || $message['can_modify'] || $message['can_remove'] || $context['can_split'] || $context['can_restore_msg'])
+				echo '
+									</ul>';
+								
+			echo'
+						
+			
+								
+								
+									<div class="smalltext">
+										<strong>'.$message['member']['link'].'</strong>
+										  ', $txt['on'], ': ', $message['time'], ' <a id="msg', $message['id'], '"></a>', $message['first_new'] ? '<a id="new"></a>' : '' ,'
+									 </div>
+								</div>
+									 ',$message['body'];
+			// Assuming there are attachments...
+			if (!empty($message['attachment']))
+			{
+				echo '
+								<div id="msg_', $message['id'], '_footer" class="attachments smalltext">
+									<div style="overflow: ', $context['browser']['is_firefox'] ? 'visible' : 'auto', ';">';
+
+				$last_approved_state = 1;
+				foreach ($message['attachment'] as $attachment)
+				{
+					// Show a special box for unapproved attachments...
+					if ($attachment['is_approved'] != $last_approved_state)
+					{
+						$last_approved_state = 0;
+						echo '
+										<fieldset>
+											<legend>', $txt['attach_awaiting_approve'], '&nbsp;[<a href="', $scripturl, '?action=attachapprove;sa=all;mid=', $message['id'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['approve_all'], '</a>]</legend>';
+					}
+
+					if ($attachment['is_image'])
+					{
+						if ($attachment['thumbnail']['has_thumb'])
+							echo '
+											<a href="', $attachment['href'], ';image" id="link_', $attachment['id'], '" onclick="', $attachment['thumbnail']['javascript'], '"><img src="', $attachment['thumbnail']['href'], '" alt="" id="thumb_', $attachment['id'], '" border="0" /></a><br />';
+						else
+							echo '
+											<img src="' . $attachment['href'] . ';image" alt="" width="' . $attachment['width'] . '" height="' . $attachment['height'] . '" border="0" /><br />';
+					}
+					echo '
+											<a href="' . $attachment['href'] . '"><img src="' . $settings['images_url'] . '/icons/clip.gif" align="middle" alt="*" border="0" />&nbsp;' . $attachment['name'] . '</a> ';
+
+					if (!$attachment['is_approved'])
+						echo '
+											[<a href="', $scripturl, '?action=attachapprove;sa=approve;aid=', $attachment['id'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['approve'], '</a>]&nbsp;|&nbsp;[<a href="', $scripturl, '?action=attachapprove;sa=reject;aid=', $attachment['id'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['delete'], '</a>] ';
+					echo '
+											(', $attachment['size'], ($attachment['is_image'] ? ', ' . $attachment['real_width'] . 'x' . $attachment['real_height'] . ' - ' . $txt['attach_viewed'] : ' - ' . $txt['attach_downloaded']) . ' ' . $attachment['downloads'] . ' ' . $txt['attach_times'] . '.)<br />';
+				}
+
+				// If we had unapproved attachments clean up.
+				if ($last_approved_state == 0)
+					echo '
+										</fieldset>';
+
+				echo '
+									</div>
+								</div>';
+			}
+			
+			echo'
+						</div>
+					<span class="botslice"><span></span></span>
+				</div>';
+		}
 	}
 
 	echo '
@@ -907,6 +1049,10 @@ function template_main()
 
 	echo '
 				// ]]></script>';
+				
+	echo '
+	</div>';
 }
+ 
 
 ?>
