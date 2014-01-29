@@ -956,7 +956,7 @@ span.hidelink{font-style:italic;}
 @media print{#headerarea{display:none;}
 .tborder{border:none;}
 }
-#fottmenu{position:relative;height:40px;font-family:arial, sans-serif;width:750px;margin:0 auto;clear:both;}
+#fottmenu{position:relative;height:40px;font-family:arial, sans-serif;width:750px;margin:0 auto;clear:both;margin-top: 40px;}
 .fottcontainer{height:50px;width:180px;overflow:hidden;position:absolute;top:-30px;padding-top:20px;z-index:1;-webkit-transition:0.5s 1s;-moz-transition:0.5s 1s;-o-transition:0.5s 1s;transition:0.5s 1s;}
 #fottmenu .p1{left:8px;z-index:99;}
 #fottmenu .p2{left:193px;z-index:99;}
