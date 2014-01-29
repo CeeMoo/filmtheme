@@ -316,7 +316,7 @@ function template_body_below()
 	</div>';
 	
 	// Show the "Powered by" and "Valid" logos, as well as the copyright. Remember, the copyright must be somewhere!
-		echo '
+		echo '</div>
 		<div id="fottmenu">
 	<div class="fottcontainer p1">
 				<div class="card">';
@@ -362,8 +362,6 @@ function template_body_below()
 		echo '
 		<p>', $txt['page_created'], $context['load_time'], $txt['seconds_with'], $context['load_queries'], $txt['queries'], '</p>';
 
-	echo '
- </div>';
 }
 
 function template_html_below()
