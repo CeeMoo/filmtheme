@@ -697,6 +697,14 @@ function template_main()
 				<a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
 					<img src="', $message['member']['avatar']['url'], '" alt="" />
 				</a>';
+								
+			else {
+				echo '
+				<a href="', $scripturl, '?action=profile;u=', $message['member']['id'], '">
+					<img src="'.$settings['images_url'].'/avatar.png" alt="" />
+				</a>';
+				
+			}
 						
             echo '
             <div class="dc-content">';
